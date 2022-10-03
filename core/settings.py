@@ -71,6 +71,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'coretags':'core.coretags'
+            }
         },
     },
 ]
@@ -134,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'bill_list'
 LOGOUT_REDIRECT_URL = 'login'
 
 

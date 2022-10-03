@@ -59,3 +59,23 @@ class CustomUpdateView(CustomContextMixin,SuccessMessageMixin,UpdateView):
         except AttributeError:
             gender = 'o'
         return f'{self.model._meta.verbose_name} atualizad{gender} com sucesso!' 
+
+
+class ListViewFilterMixin:
+    page_size_param = 'page_size'
+    page_number_param = 'page'
+    exclude_params = []
+    list_params = []
+
+    def build_filters_dict(self) -> dict:
+        filters = {}
+        for key in self.request.GET.keys():
+            if key != self.page_number_param and key != self.page_size_param and not key in self.exclude_params:
+                value = self.request.GET.get(key)
+                if value:
+                    if key in self.list_params:
+                        filters[key] = value.split(',')
+                    else:
+                        filters[key] = value
+        return filters
+

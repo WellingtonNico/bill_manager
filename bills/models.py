@@ -9,7 +9,7 @@ class Bill(models.Model):
     user:User = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='Usuário')
     bill_type = models.CharField(choices=BILL_TYPES,verbose_name='Tipo',max_length=18)
     installment_number = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela')
-    create_date = models.DateField(verbose_name='Data de criação')
+    created_date = models.DateField(verbose_name='Data de criação')
     days_to_notify_before_expiration = models.IntegerField()
     expiration_date = models.DateField(null=True,blank=True,verbose_name='Data de vencimento')
     expiration_notification_date = models.DateField(null=True,blank=True,verbose_name='Data para notificar vencimento')
