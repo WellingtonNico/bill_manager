@@ -3,6 +3,7 @@ version: '3.8'
 
 services:
   bmrabbitmq:
+    container_name: bmrabbitmq
     restart: always
     image: rabbitmq:3.9.22-management-alpine
     env_file:
@@ -28,9 +29,48 @@ services:
 
   bmweb1:
     container_name: bmweb1
+    build: ./
+    restart: always
+    volumes:
+      - ./:/bill_manager
+      - /etc/bill_manager/:/etc/bill_manager
+    ports:
+      - "8000:8000"
+    command: sh -c "
+      python3 manage.py migrate &&
+      gunicorn --config /etc/bill_manager/docker/gunicorn/configs/gunicorn.conf.py 
+      project.wsgi:application
+      --bind 0.0.0.0:8000"
+    env_file:
+      - ./.env
+    depends_on:
+      - bmdb
+      - bmrabbitmq
 
   bmworker1:
     container_name: bmworker
+    build: 
+      context: .
+    restart: always
+    volumes:
+      - ./:/bill_manager
+      - /etc/bill_manager/:/etc/bill_manager
+    command: sh -c "celery 
+      -A project worker 
+      --pool=gevent 
+      -Q celery 
+      --prefetch-multiplier=12 
+      --max-tasks-per-child=12 
+      --concurrency=4
+      -l info 
+      -n bmworker1@%h "
+    env_file:
+      - ./.env
+    depends_on:
+      - fcpweb1
+      - fcpdb
+      - fcpredis
+      - fcprabbitmq
 
 
 
