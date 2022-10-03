@@ -6,7 +6,9 @@ from core.view_classes import ListViewFilterMixin
 
 
 class BillListView(ListViewFilterMixin,ListView):
-    paginate_by = 3
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('page_size',40)
 
     def get_queryset(self):
         return self.request.user.get_bills().filter(**self.build_filters_dict())
@@ -15,4 +17,5 @@ class BillListView(ListViewFilterMixin,ListView):
         context = super().get_context_data(**kwargs)
         context['BILL_TYPES'] = BILL_TYPES
         context['BILL_STATUSES'] = BILL_STATUSES
+        context['PAGE_SIZES'] = [5,10,20,30,40,50]
         return context

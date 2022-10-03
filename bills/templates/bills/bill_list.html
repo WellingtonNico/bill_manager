@@ -45,6 +45,14 @@
                         <label for="">Valor:</label>
                         <input type="number" name="value" class="form-control"    value="{{request.GET.value}}">
                     </div>
+                    <div class="col-4 mt-2">
+                        <label for="">Tamanho da página</label>
+                        <select class="form-control" name="page_size">
+                            {% for n in PAGE_SIZES%}
+                                <option {% if n == request.GET.page_size %}selected{%endif%} value="{{n}}">{{n}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success mt-3">filtrar</button>
@@ -68,11 +76,11 @@
                             {% for obj in object_list %}
                                 <tr>
                                     <td>{{obj.created_date}}</td>
-                                    <td>{{obj.category.name}}</td>
+                                    <td>{{obj.bill_category.name}}</td>
                                     <td>{{obj.get_bill_type_display}}</td>
-                                    <td>{{obj.get_bill_charger_name}}</td>
+                                    <td>{{obj.bill_charger.name}}</td>
                                     <td>{{obj.installment_number}}</td>
-                                    <td>{{obj.status}}</td>
+                                    <td>{{obj.get_status_display}}</td>
                                     <td>{{obj.expiration_date}}</td>
                                     <td>{{obj.value}}</td>
                                 </tr>
@@ -89,14 +97,14 @@
                         <ul class="pagination justify-content-center">
                             {% if page_obj.number != 1 %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page=1&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}" aria-label="Primeira">
+                                    <a class="page-link" href="?page=1&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}" aria-label="Primeira">
                                         <span aria-hidden="true"><<</span>
                                     </a>
                                 </li>
                             {% endif %}
                             {% if page_obj.has_previous %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{page_obj.previous_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}" aria-label="Anterior">
+                                    <a class="page-link" href="?page={{page_obj.previous_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}" aria-label="Anterior">
                                         <span aria-hidden="true"><</span>
                                     </a>
                                 </li>
@@ -104,14 +112,14 @@
                             <li class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></li>
                             {% if page_obj.has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{page_obj.next_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}" aria-label="Próxima">
+                                    <a class="page-link" href="?page={{page_obj.next_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}" aria-label="Próxima">
                                         <span aria-hidden="true">></span>
                                     </a>
                                 </li>
                             {% endif %}
                             {% if page_obj.number != page_obj.paginator.num_pages %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}" aria-label="Última">
+                                    <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}" aria-label="Última">
                                         <span aria-hidden="true">>></span>
                                     </a>
                                 </li>
