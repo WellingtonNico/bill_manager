@@ -7,3 +7,8 @@ class BillCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+        unique_together = (('name','user'),)

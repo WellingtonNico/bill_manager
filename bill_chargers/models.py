@@ -10,3 +10,8 @@ class BillCharger(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Cobrador'
+        verbose_name_plural = 'Cobradores'
+        unique_together = (('name','user'),)
