@@ -2,6 +2,7 @@
 #deve ser rodado de dentro da pasta docker/bashes
 echo "Criando diretório de configurações..."
 sudo mkdir /etc/bill_manager
+sudo mkdir -p /etc/bill_manager/media/payment_proofs
 sudo chmod 777 /etc/bill_manager
 echo "Copiando pasta com arquivos do projeto para pasta criada..."
 cp -r ../../docker /etc/bill_manager
