@@ -17,4 +17,5 @@ class Bill(models.Model):
     bill_category:BillCategory = models.ForeignKey(BillCategory,on_delete=models.CASCADE,verbose_name='Categoria')
     status = models.CharField(choices=BILL_STATUSES,default='UNDEFINED',max_length=9)
     payment_proof_path = models.CharField(max_length=255,null=True,blank=True)
+    note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
     value = models.FloatField(verbose_name='Valor')

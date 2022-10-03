@@ -27,6 +27,8 @@ services:
     env_file:
       - ./docker.env
     command: postgres -c config_file=/etc/postgres/config/postgresql.conf -c logging_collector=on -c log_destination=stderr
+    ports:
+      - 5433:5432
 
   bmweb1:
     container_name: bmweb1
@@ -36,8 +38,10 @@ services:
       - ./:/bill_manager
       - /etc/bill_manager/:/etc/bill_manager
     ports:
-      - "8000:8000"
+      - "8001:8000"
     command: sh -c "
+      pip3 install -r requirements.txt &&
+      python3 gzipstatic.py &&
       python3 manage.py migrate &&
       gunicorn --config /etc/bill_manager/docker/gunicorn/configs/gunicorn.conf.py 
       core.wsgi:application
@@ -68,7 +72,7 @@ services:
     env_file:
       - ./docker.env
     depends_on:
-      - dmweb1
+      - bmweb1
       - bmdb
       - bmrabbitmq
 

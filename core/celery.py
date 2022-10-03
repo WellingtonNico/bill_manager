@@ -2,12 +2,11 @@ import os
 from celery import Celery
 from django.conf import settings
 from celery.signals import worker_init
-from decouple import config
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 
-app = Celery('project.celery')
+app = Celery('core.celery')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
