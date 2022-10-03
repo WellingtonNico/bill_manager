@@ -5,6 +5,8 @@ class BillCategory(models.Model):
     user:User = models.ForeignKey(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=60,verbose_name='Nome')
 
+    gender = 'a'
+
     def __str__(self):
         return self.name
 

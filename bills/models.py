@@ -19,3 +19,9 @@ class Bill(models.Model):
     payment_proof_path = models.CharField(max_length=255,null=True,blank=True)
     note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
     value = models.FloatField(verbose_name='Valor')
+
+    gender = 'a'
+
+    class Meta:
+        verbose_name = 'Conta'
+        verbose_name_plural = 'Contas'

@@ -8,6 +8,8 @@ class BillCharger(models.Model):
     phone = models.CharField(max_length=60,blank=True,null=True,verbose_name='Telefone de contato')
     email = models.EmailField(blank=True,null=True,verbose_name='E-mail')
 
+    gender = 'o'
+
     def __str__(self):
         return self.name
 
