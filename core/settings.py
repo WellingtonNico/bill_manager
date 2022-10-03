@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+from kombu import Queue,Exchange
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,3 +134,39 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+
+
+###############################
+####### CELERY SETTINGS #######
+###############################
+CELERY_BROKER_URL = config('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIME_ZONE = TIME_ZONE
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_ENABLE_UTC = True
+# aks_late não pode ser usado como false
+CELERY_MESSAGE_COMPRESSION = 'gzip'
+CELERY_ACKS_LATE = True
+CELERY_TASK_ACKS_LATE = True
+CELERYD_PREFETCH_MULTIPLIER = 1
+CELERY_PREFETCH_MULTIPLIER = 1
+CELERYD_WORKER_PREFETCH_MULTIPLIER = 1
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+CELERY_TASK_TRACK_STARTED= True
+CELERY_TASK_REJECT_ON_WORKER_LOST = True
+CELERY_RESULT_PERSISTENT = True
+CELERY_RESULT_EXTENDED = True
+CELERY_REJECT_ON_WORKER_LOST = True
+CELERY_TASK_CREATE_MISSING_QUEUES=True
+CELERY_RESULT_EXPIRES = 60 * 60 * 24 * 4
+QUEUES = ('celery','fast_task','heavy_task')
+CELERY_X_MAX_PRIORITY = 5
+CELERY_TASK_QUEUES = [
+    Queue(
+        queue,Exchange(queue),routing_key=queue,queue_arguments={'x-max-priority': CELERY_X_MAX_PRIORITY}
+    ) for queue in QUEUES
+]

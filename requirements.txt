@@ -3,3 +3,4 @@ Django==4.1.1
 sqlparse==0.4.3
 celery==5.2.7
 psycopg2-binary==2.9.3
+python-decouple==3.4
