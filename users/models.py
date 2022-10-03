@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
 from users.validators import document_validator
 
 
@@ -13,5 +12,14 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.first_name
+
+    def get_bills(self):
+        return self.bill_set.all()
+
+    def get_billcategories(self):
+        return self.billcategory_set.all()
+
+    def get_billchargers(self):
+        return self.billcharger_set.all()
 
 

@@ -9,8 +9,7 @@ services:
     env_file:
       - ./docker.env
     ports:
-      - 15673:15672
-      - 5673:5672
+      - 15672:15672
     volumes:
       - bm_rabbitmq_data:/var/lib/rabbitmq/
       - bm_rabbitmq_logs:/var/log/rabbitmq/

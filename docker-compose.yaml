@@ -38,7 +38,7 @@ services:
       - ./:/bill_manager
       - /etc/bill_manager/:/etc/bill_manager
     ports:
-      - "8001:8000"
+      - "8000:8000"
     command: sh -c "
       pip3 install -r requirements.txt &&
       python3 gzipstatic.py &&
