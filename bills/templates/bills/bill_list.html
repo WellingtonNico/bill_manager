@@ -100,7 +100,7 @@
             </form>
             <div class="card mt-3 p-3">
                 <div style="overflow-x: auto;">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <th>Criada em</th>
                             <th>Categoria</th>
@@ -114,7 +114,7 @@
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
-                                <tr>
+                                <tr data-toggle="tooltip" title="{{ obj.note }}">
                                     <td>{{obj.created_date}}</td>
                                     <td>{{obj.bill_category.name}}</td>
                                     <td>{{obj.get_bill_type_display}}</td>
@@ -176,7 +176,6 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'js/filters/functions.js' %}"></script>
     <script>
         var navLinkIndex = 0
     </script>

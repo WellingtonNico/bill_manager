@@ -22,5 +22,6 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('bills/',include('bills.urls')),
+    path('bill_categories/',include('bill_categories.urls')),
     path('',RedirectView.as_view(url=reverse_lazy('bill_list'))),
 ]

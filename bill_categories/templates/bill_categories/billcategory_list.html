@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load coretags %}
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <form id="filter_form" action="?" class="card p-3" method="get">
+                <div class="row">
+                    <div class="col-12 col-md-8 mt-2">
+                        <label >Nome:</label>
+                        <input type="text" name="name__icontains" class="form-control" value="{{request.GET.name__icontains}}">
+                    </div>
+                    <div class="col-12 col-md-4 mt-2">
+                        <label >Tamanho da página:</label>
+                        <select class="form-control" name="page_size">
+                            {% for n in PAGE_SIZES %}
+                                <option {% if n == request.GET.page_size|to_int %}selected{%endif%} value="{{n}}">{{n}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
+                    <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
+                    <a href="#" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
+                </div>
+            </form>
+            <div class="card mt-3 p-3">
+                <div style="overflow-x: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            {% for obj in object_list %}
+                                <tr>
+                                    <td>{{obj.id}}</td>
+                                    <td>{{obj.name}}</td>
+                                    <td class="text-end m-0"><a href="" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="1000" class="text-center">
+                                        nenhum resultado encontrado
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.number != 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1&page_size={{request.GET.page_size}}&name__icontains={{request.GET.name__icontains}}" aria-label="Primeira">
+                                    <span aria-hidden="true"><<</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{page_obj.previous_page_number}}&page_size={{request.GET.page_size}}&name__icontains={{request.GET.name__icontains}}" aria-label="Anterior">
+                                    <span aria-hidden="true"><</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{page_obj.next_page_number}}&page_size={{request.GET.page_size}}&name__icontains={{request.GET.name__icontains}}" aria-label="Próxima">
+                                    <span aria-hidden="true">></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if page_obj.number != page_obj.paginator.num_pages %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&page_size={{request.GET.page_size}}&name={{request.GET.name}}" aria-label="Última">
+                                    <span aria-hidden="true">>></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item disabled">
+                            <a class="page-link " href="#" aria-label="Última">
+                                <span aria-hidden="true">total: {{page_obj.paginator.count}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script>
+        var navLinkIndex = 1
+    </script>
+{% endblock %}
