@@ -64,13 +64,22 @@ class CustomUpdateView(CustomContextMixin,SuccessMessageMixin,UpdateView):
 class ListViewFilterMixin:
     page_size_param = 'page_size'
     page_number_param = 'page'
+    page_ordering_param = 'ordering'
+    default_ordering = None
+    default_page_size = 40
     exclude_params = []
     list_params = []
+
+    def get_ordering(self):
+        return self.request.GET.get(self.page_ordering_param,self.default_ordering)
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get(self.page_size_param,self.default_page_size)
 
     def build_filters_dict(self) -> dict:
         filters = {}
         for key in self.request.GET.keys():
-            if key != self.page_number_param and key != self.page_size_param and not key in self.exclude_params:
+            if key != self.page_number_param and key != self.page_size_param and not key in self.exclude_params and not key == self.page_ordering_param:
                 value = self.request.GET.get(key)
                 if value:
                     if key in self.list_params:

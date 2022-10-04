@@ -1,4 +1,8 @@
 .table-striped>tbody>tr:nth-child(odd)>td, 
 .table-striped>tbody>tr:nth-child(odd)>th {
-    background-color:rgba(100, 162, 100,.5) !important;
+    background-color:rgba(114, 222, 114, 0.344) !important;
+}
+
+.material-icons{
+    vertical-align: bottom !important;
 }

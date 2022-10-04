@@ -11,3 +11,10 @@ BILL_STATUSES = (
     ('WARNING','ATENÇÃO'),
     ('PAID','PAGA')
 )
+
+BILL_ORDERING_OPTIONS = (
+    ('-created_date','Criado em - mais recentes'),
+    ('created_date','Criado em - mais antigas'),
+    ('-expiration_date','Expira em - mais recentes'),
+    ('expiration_date','Expira em - mais antigas'),
+)

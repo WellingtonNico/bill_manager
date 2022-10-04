@@ -7,15 +7,19 @@ from core.view_classes import ListViewFilterMixin
 
 class BillListView(ListViewFilterMixin,ListView):
 
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get('page_size',30)
+    default_ordering = '-created_date'
 
     def get_queryset(self):
-        return self.request.user.get_bills().filter(**self.build_filters_dict())
+        querySet = self.request.user.get_bills().filter(**self.build_filters_dict())
+        ordering = self.get_ordering()
+        if ordering:
+            return querySet.order_by(ordering)
+        return querySet
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['BILL_TYPES'] = BILL_TYPES
         context['BILL_STATUSES'] = BILL_STATUSES
+        context['BILL_ORDERING_OPTIONS'] = BILL_ORDERING_OPTIONS
         context['PAGE_SIZES'] = [5,10,20,30,40,50]
         return context

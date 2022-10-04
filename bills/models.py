@@ -8,7 +8,8 @@ from users.models import User
 class Bill(models.Model):
     user:User = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='Usuário')
     bill_type = models.CharField(choices=BILL_TYPES,verbose_name='Tipo',max_length=18)
-    installment_number = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela')
+    installment_total = models.IntegerField(null=True,blank=True,verbose_name='Quantidade de parcelas')
+    installment_sequence = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela')
     created_date = models.DateField(verbose_name='Data de criação')
     days_to_notify_before_expiration = models.IntegerField()
     expiration_date = models.DateField(null=True,blank=True,verbose_name='Data de vencimento')
@@ -25,3 +26,4 @@ class Bill(models.Model):
     class Meta:
         verbose_name = 'Conta'
         verbose_name_plural = 'Contas'
+        ordering = (('-created_date',))
