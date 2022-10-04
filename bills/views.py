@@ -8,7 +8,7 @@ from core.view_classes import ListViewFilterMixin
 class BillListView(ListViewFilterMixin,ListView):
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get('page_size',40)
+        return self.request.GET.get('page_size',30)
 
     def get_queryset(self):
         return self.request.user.get_bills().filter(**self.build_filters_dict())

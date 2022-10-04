@@ -8,5 +8,6 @@ BILL_STATUSES = (
     ('UNDEFINED','INDEFINIDO'),
     ('TO_EXPIRE','A VENCER'),
     ('EXPIRED','EXPIRADA'),
-    ('WARNING','ATENÇÃO')
+    ('WARNING','ATENÇÃO'),
+    ('PAID','PAGA')
 )
