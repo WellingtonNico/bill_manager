@@ -95,7 +95,7 @@
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
                     <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                    <a class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
+                    <a href="{% url 'bill_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
                 </div>
             </form>
             <div class="card mt-3 p-3">
@@ -123,7 +123,7 @@
                                     <td><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
                                     <td>{{obj.expiration_date}}</td>
                                     <td>{{obj.value}}</td>
-                                    <td class="text-end m-0"><a href="#" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
+                                    <td class="text-end m-0"><a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
                                 </tr>
                             {% empty %}
                                 <tr>

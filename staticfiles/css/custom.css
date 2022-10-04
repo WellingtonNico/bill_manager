@@ -6,3 +6,7 @@
 .material-icons{
     vertical-align: bottom !important;
 }
+
+legend{
+    text-align: center !important;
+}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load coretags static crispy_forms_tags %}
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card bg-light p-3">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% crispy form %}
+                </form>
+            </div>
+        </div>
+    </div>
+  <!-- Modal -->
+  <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="material-icons text-danger">delete</i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja deletar esta conta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancelar</button>
+                    <form method="post" action="{% url 'bill_delete' form.instance.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger"><i class="material-icons">delete</i> deletar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+  </div>
+{% endblock %}

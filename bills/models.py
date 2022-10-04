@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
 from bill_chargers.models import BillCharger
 from bills.constants import *
@@ -27,3 +28,6 @@ class Bill(models.Model):
         verbose_name = 'Conta'
         verbose_name_plural = 'Contas'
         ordering = (('-created_date',))
+
+    def get_absolute_url(self):
+        return reverse_lazy('bill_update',kwargs={'pk':self.id})
