@@ -64,4 +64,4 @@ class BillModelForm(ModelForm):
 
     def is_valid(self):
         self.instance.user = self.current_user
-        return super().is_valid(self)
+        return super().is_valid()
