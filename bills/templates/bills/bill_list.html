@@ -119,7 +119,7 @@
                                     <td>{{obj.bill_category.name}}</td>
                                     <td>{{obj.get_bill_type_display}}</td>
                                     <td>{{obj.bill_charger.name}}</td>
-                                    <td>{% if obj.installment_sequence %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}n/d{% endif %}</td>
+                                    <td>{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}n/d{% endif %}</td>
                                     <td><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
                                     <td>{{obj.expiration_date}}</td>
                                     <td>{{obj.value}}</td>
