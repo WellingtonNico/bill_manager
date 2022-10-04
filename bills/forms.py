@@ -44,7 +44,8 @@ class BillModelForm(ModelForm):
     def __init__(self, *args,**kwargs):
         self.current_user = kwargs.pop('current_user')
         super().__init__(*args,**kwargs)
-
+        self.fields['bill_category'].queryset = self.current_user.get_billcategories()
+        self.fields['bill_charger'].queryset = self.current_user.get_billchargers()
     
     def clean_installment_total(self):
         billType = self.cleaned_data['bill_type']

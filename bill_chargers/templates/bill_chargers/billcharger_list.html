@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load coretags %}
 {% block title %}
-    Categorias - lista
+    Cobradores - lista
 {% endblock %}
 {% block body %}
     <div class="row justify-content-center">
@@ -24,7 +24,7 @@
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
                     <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                    <a href="{% url 'billcategory_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
+                    <a href="{% url 'billcharger_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
                 </div>
             </form>
             <div class="card shadow mt-3 p-3">
@@ -40,7 +40,7 @@
                                 <tr>
                                     <td>{{obj.id}}</td>
                                     <td>{{obj.name}}</td>
-                                    <td class="text-end m-0"><a href="{% url 'billcategory_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
+                                    <td class="text-end m-0"><a href="{% url 'billcharger_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
                                 </tr>
                             {% empty %}
                                 <tr>
@@ -94,6 +94,6 @@
         </div>
     </div>
     <script>
-        var navLinkIndex = 1
+        var navLinkIndex = 2
     </script>
 {% endblock %}

@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import ValidationError
+from django.urls import reverse_lazy
 from users.models import User
 
 class BillCategory(models.Model):
@@ -14,3 +16,13 @@ class BillCategory(models.Model):
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
         unique_together = (('name','user'),)
+
+    def get_absolute_url(self):
+        return reverse_lazy('billcategory_update',kwargs={'pk':self.id})
+
+    def validate_unique(self, exclude):
+        querySet = BillCategory.objects.filter(user=self.user,name=self.name)
+        if querySet.exists():
+            if querySet.first().id != self.id:
+                raise ValidationError('Já existe uma categoria com este nome')
+        return super().validate_unique(exclude)

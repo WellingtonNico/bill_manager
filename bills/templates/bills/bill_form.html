@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
-{% load coretags static crispy_forms_tags %}
+{% load static crispy_forms_tags %}
 {% block title %}
     Contas - formulário
 {% endblock %}
 {% block body %}
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
-            <div class="card bg-light p-3">
-                <form method="POST">
-                    {% csrf_token %}
-                    {% crispy form %}
-                </form>
-            </div>
+            <form method="POST" class="card shadow bg-light p-3">
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
         </div>
     </div>
     <!-- início do modal para confimar deletar -->
@@ -36,10 +34,14 @@
                 </div>
             </div>
         </div>
+        <script>
+            var navLinkIndex = 0
+        </script>
     {% endif %}
     <!-- fim do modal para confimar deletar -->
+{% endblock %}
+{% block script %}
     <script>
-        var navLinkIndex = 0
         $(document).ready(()=>{
             $('#id_bill_category').select2(
                 {
