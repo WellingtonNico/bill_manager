@@ -11,8 +11,9 @@
             </div>
         </div>
     </div>
-  <!-- Modal -->
-    <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- início do modal para confimar deletar -->
+    {% if form.instance.id %}
+        <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -31,10 +32,11 @@
                     </div>
                 </div>
             </div>
-    </div>
-{% endblock %}
-{% block script %}
+        </div>
+    {% endif %}
+    <!-- fim do modal para confimar deletar -->
     <script>
+        var navLinkIndex = 0
         $(document).ready(()=>{
             $('#id_bill_category').select2(
                 {
