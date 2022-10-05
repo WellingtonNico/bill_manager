@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'bill_chargers',
     'bill_categories',
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+    'django_cleanup.apps.CleanupConfig', # deve ficar sempre por último
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -135,6 +136,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = './static'
 STATICFILES_DIRS = ['./staticfiles']
+
+MEDIA_ROOT = config('MEDIA_ROOT')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

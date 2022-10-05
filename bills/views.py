@@ -45,10 +45,7 @@ class BillPaymentProofDownloadView(DetailView):
 
     def get(self,request,*args,**kwargs):
         obj:Bill = self.get_object()
-        fullDir = obj.get_payment_proof_fulldir()
-        if not fullDir:
-            raise Http404()
         fileResponse = FileResponse(
-            open(fullDir,'rb')
+            obj.payment_proof_file.file
         )
         return fileResponse

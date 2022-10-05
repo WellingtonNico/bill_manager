@@ -8,10 +8,6 @@ from crispy_forms.layout import HTML,Layout,Fieldset
 
 class BillModelForm(ModelForm):
     instance:Bill
-    payment_proof = FileField(
-        label='Comprovante de pagamento',max_length=settings.PAYMENT_PROOFS_MAX_LENGTH_KB*1024,required=False,
-        help_text=f'Caso o status for PAGO pode estar anexando um comprovante, caso já exista um comprovante, o mesmo será sobrescrito. Tamamho máximo {settings.PAYMENT_PROOFS_MAX_LENGTH_KB} KB', 
-    )
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
@@ -27,12 +23,12 @@ class BillModelForm(ModelForm):
         HTML('<hr>'),
         Fieldset(
             'Pagamento',
-            'payment_date','payment_type','payment_proof'
+            'payment_date','payment_type','payment_proof_file'
         ),
         HTML(
             '''
-            {% if form.instance.id %}
-                {% if form.instance.get_payment_proof_fulldir %}
+            {% if form.instance.id and not form.payment_proof_file.errors %}
+                {% if form.instance.payment_proof_file.file is not none %}
                     <a download href="{% url 'bill_payment_proof_download' form.instance.id %}">Baixar comprovante</a>
                 {% endif %}
             {% endif %}
@@ -58,7 +54,7 @@ class BillModelForm(ModelForm):
             'bill_category','bill_type','installment_total','installment_sequence',
             'bill_charger','created_date','expiration_date',
             'days_to_notify_before_expiration','status','value','note','payment_date',
-            'payment_type'
+            'payment_type','payment_proof_file'
         )
 
     def __init__(self, *args,**kwargs):
@@ -116,32 +112,13 @@ class BillModelForm(ModelForm):
             raise ValidationError('Ao alterar o status para PAGA, é necessário informar o tipo do pagamento')
         return payment_type
     
-    def clean_payment_proof(self):
+    def clean_payment_proof_file(self):
         status = self.cleaned_data['status']
-        payment_proof = self.cleaned_data['payment_proof']
-        if payment_proof != None:
-            if not self.instance.id:
-                raise ValidationError('Para pode adicionar um comprovante, primeiro é necessário salvar o cadastro')
-            if status == 'PAID':
-                self.payment_proof_file = payment_proof
-                if len(self.payment_proof_file) > settings.PAYMENT_PROOFS_MAX_LENGTH_KB*1024:
-                    raise ValidationError(f'O comprovante de pagamento excede o tamanho máximo permitido de {settings.PAYMENT_PROOFS_MAX_LENGTH_KB} KB')
-                if not 'image' in self.payment_proof_file.content_type and not 'pdf' in self.payment_proof_file.content_type:
-                    raise ValidationError('Formato de arquivo não aceito, são permitidos somente PDFs e imagens')
-                self.instance.payment_proof_file_name = self.payment_proof_file.name
-            else:
-                raise ValidationError('Só é possível adicionar um comprovante quando o status por PAGO')
-        return None
+        payment_proof_file = self.cleaned_data['payment_proof_file']
+        if payment_proof_file and status != 'PAID':
+            raise ValidationError('Só é possível adicionar um comprovante quando o status por PAGO')
+        return payment_proof_file
 
     def is_valid(self):
         self.instance.user = self.current_user
         return super().is_valid()
-
-    def save(self, commit=True):
-        if hasattr(self,'payment_proof_file') and commit:
-            self.instance.delete_payment_proof()
-            open(
-                f"{self.current_user.get_payment_proofs_dir()}{settings.PAYMENT_PROOF_PREFIX_NAME}{self.instance.id}.{self.payment_proof_file.name.split('.')[-1]}",
-                '+wb'
-            ).write(self.payment_proof_file.read())
-        return super().save(commit)

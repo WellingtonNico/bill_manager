@@ -5,11 +5,6 @@ sudo mkdir /etc/bill_manager
 sudo chmod 777 /etc/bill_manager
 echo ""
 echo ""
-echo "Criando pasta para comprovantes de pagamento"
-sudo mkdir -p /etc/bill_manager/media/payment_proofs
-sudo chmod 777 /etc/bill_manager/media/payment_proofs
-echo ""
-echo ""
 echo "Copiando pasta com arquivos do projeto para pasta criada..."
 sudo cp -r docker /etc/bill_manager
 echo ""

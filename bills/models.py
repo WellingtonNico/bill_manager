@@ -2,7 +2,6 @@ import os
 import glob
 from datetime import datetime
 from django.db import models
-from django.conf import settings
 from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
 from bill_chargers.models import BillCharger
@@ -10,6 +9,9 @@ from bills.constants import *
 from bills.validators import *
 from users.models import User
 
+
+def get_payment_proof_path(instance,filename):
+    return  f'payment_proofs/user_{instance.user.id}/payment_proof_{instance.id}.{filename.split(".")[-1]}'
 
 class Bill(models.Model):
     user:User = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='Usuário')
@@ -19,6 +21,7 @@ class Bill(models.Model):
     created_date = models.DateField(verbose_name='Data de criação')
     payment_date = models.DateField(verbose_name='Data de pagamento',null=True,blank=True,validators=(only_date_lower_or_equal_today,))
     payment_type = models.CharField(choices=BILL_PAYMENT_TYPES,verbose_name='Tipo de pagamento',max_length=18,blank=True,null=True)
+    payment_proof_file = models.FileField(null=True,blank=True,verbose_name='Comprovante de pagamento',upload_to=get_payment_proof_path,validators=(payment_proof_file_size_validator,payment_proof_file_format_validator))
     days_to_notify_before_expiration = models.IntegerField(verbose_name='Dias para notificar antes do vencimento',validators=(only_positive_numbers,))
     expiration_date = models.DateField(null=True,blank=True,verbose_name='Data de vencimento')
     expiration_notification_date = models.DateField(null=True,blank=True,verbose_name='Data para notificar vencimento')
@@ -48,14 +51,3 @@ class Bill(models.Model):
             else:
                 return f'{difference} dias'
         return '-'
-
-    def get_payment_proof_fulldir(self):
-        files = glob.glob(self.user.get_payment_proofs_dir()+f'{settings.PAYMENT_PROOF_PREFIX_NAME}{self.id}.*')
-        if files:
-            return files[0]
-        return ''
-
-    def delete_payment_proof(self):
-        fullDir = self.get_payment_proof_fulldir()
-        if fullDir:
-            os.remove(fullDir)
