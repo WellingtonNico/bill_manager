@@ -7,11 +7,9 @@ import os
 
 @receiver(pre_save,sender=Bill,weak=False)
 def bill_pre_save_signal_handler(sender:Bill,instance:Bill,*args,**kwargs):
-    if instance.status != 'PAID':
-        pass
-
-
-
+    instance.status = instance.get_updated_status()
+    if instance.status in ('EXPIRED','EXPIRES_TODAY','TO_EXPIRE','WARNING'):
+        instance.expiration_notification_date = instance.expiration_date - timedelta(days=instance.days_to_notify_before_expiration)
 
 @receiver(post_save,sender=Bill,weak=False)
 def bill_post_save_signal_handler(sender:Bill,instance:Bill,created,*args,**kwargs):

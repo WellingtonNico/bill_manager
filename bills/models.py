@@ -1,6 +1,6 @@
 import os
 import glob
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
 from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
@@ -55,4 +55,14 @@ class Bill(models.Model):
     def get_updated_status(self):
         if self.status == 'PAID':
             return self.status
+        if self.expiration_date == datetime.now().date():
+            return 'EXPIRES_TODAY'
+        if datetime.now().date() > self.expiration_date:
+            return 'EXPIRED'
+        if (datetime.now().date() -timedelta(days=self.days_to_notify_before_expiration)) <= datetime.now().date() < self.expiration_date:
+            return 'WARNING'
+        return 'UNDEFINED'
+        
+
+        
         

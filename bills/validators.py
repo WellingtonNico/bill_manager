@@ -1,6 +1,7 @@
 from django.forms import ValidationError
 from datetime import datetime
 from django.conf import settings
+from django.db.models import FileField
 
 
 def only_greater_than_zero(value):
@@ -27,6 +28,7 @@ def payment_proof_file_size_validator(value):
 
 
 def payment_proof_file_format_validator(value):
-    if not 'image' in value.file.content_type and not 'pdf' in value.file.content_type:
-        raise ValidationError('Formato de arquivo não permitido, são permitidos somente PDF e imagens')
+    if hasattr(value.file,'content_type'):
+        if not 'image' in value.file.content_type and not 'pdf' in value.file.content_type:
+            raise ValidationError('Formato de arquivo não permitido, são permitidos somente PDF e imagens')
 
