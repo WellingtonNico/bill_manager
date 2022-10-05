@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm,SetPasswordForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML,Layout,Fieldset
 
@@ -36,6 +36,25 @@ class CustomPasswordResetForm(PasswordResetForm):
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">
                     <button type="submit" class="btn btn-success"><i class="material-icons">done</i> enviar email</button>
+                </div>
+            </div>
+            '''
+        )
+    )
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    helper = FormHelper()
+    helper.layout =Layout(
+        Fieldset(
+            'Recuperação de senha',
+            'new_password1','new_password2'
+        ),
+        HTML(
+            '''
+            <div class="row mt-3 justify-content-center">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> alterar</button>
                 </div>
             </div>
             '''
