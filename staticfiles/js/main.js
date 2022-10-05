@@ -1,6 +1,9 @@
-if (navLinkIndex!=undefined){
-    document.getElementsByClassName('nav-link')[navLinkIndex].classList.add('active')
-}
+$(document).ready(()=>{
+    if (navLinkIndex!=undefined){
+        document.getElementsByClassName('nav-link')[navLinkIndex].classList.add('active')
+    }   
+})
+
 
 function cleanFilters(){
     var filterForm = document.querySelector('#filter_form')

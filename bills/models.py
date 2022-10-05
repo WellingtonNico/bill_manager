@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
@@ -12,7 +13,8 @@ class Bill(models.Model):
     installment_total = models.IntegerField(null=True,blank=True,verbose_name='Quantidade de parcelas')
     installment_sequence = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela')
     created_date = models.DateField(verbose_name='Data de criação')
-    days_to_notify_before_expiration = models.IntegerField()
+    payment_date = models.DateField(verbose_name='Data de pagamento',null=True,blank=True)
+    days_to_notify_before_expiration = models.IntegerField(verbose_name='Dias para notificar antes do vencimento')
     expiration_date = models.DateField(null=True,blank=True,verbose_name='Data de vencimento')
     expiration_notification_date = models.DateField(null=True,blank=True,verbose_name='Data para notificar vencimento')
     bill_charger:BillCharger = models.ForeignKey(BillCharger,on_delete=models.CASCADE,verbose_name='Cobrador')
@@ -21,6 +23,10 @@ class Bill(models.Model):
     payment_proof_path = models.CharField(max_length=255,null=True,blank=True)
     note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
     value = models.FloatField(verbose_name='Valor')
+
+    # data pagamento
+    # forma de pagamento
+    # banco
 
     gender = 'a'
 
@@ -31,3 +37,12 @@ class Bill(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('bill_update',kwargs={'pk':self.id})
+
+    def get_days_to_expiration_date(self):
+        if self.status in ('TO_EXPIRE','WARNING'):
+            difference = (self.expiration_date - datetime.now().date()).days
+            if abs(difference) == 1:
+                return f'{difference} dia'
+            else:
+                return f'{difference} dias'
+        return '-'

@@ -17,10 +17,23 @@ from django.contrib import admin
 from django.urls import path, reverse_lazy
 from django.urls import include
 from django.views.generic import RedirectView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import (
+    LogoutView,
+    LoginView,
+    PasswordChangeView,
+    PasswordChangeDoneView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView,
+    PasswordResetCompleteView
+)
+
+from core.forms import CustomAuthenticationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/',LoginView.as_view(form_class=CustomAuthenticationForm),name='login'),
+    path('logout/',LogoutView.as_view(),name='logout'),
     path('bills/',include('bills.urls')),
     path('bill_categories/',include('bill_categories.urls')),
     path('bill_chargers/',include('bill_chargers.urls')),

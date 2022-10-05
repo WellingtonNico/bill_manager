@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static crispy_forms_tags %}
+{% load crispy_forms_tags %}
 {% block title %}
     Contas - formulário
 {% endblock %}
@@ -34,14 +34,12 @@
                 </div>
             </div>
         </div>
-        <script>
-            var navLinkIndex = 0
-        </script>
     {% endif %}
     <!-- fim do modal para confimar deletar -->
 {% endblock %}
 {% block script %}
     <script>
+        var navLinkIndex = 0
         $(document).ready(()=>{
             $('#id_bill_category').select2(
                 {

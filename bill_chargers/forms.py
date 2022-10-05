@@ -8,7 +8,7 @@ class BillChargerModelForm(ModelForm):
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
-            'Cadastro de Categoria',
+            'Cadastro de Cobrador',
             'name','phone','email'
         ),
         HTML(

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from bill_categories.models import BillCategory
+from .models import BillCategory
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML,Layout,Fieldset
 

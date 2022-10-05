@@ -13,7 +13,7 @@ class BillModelForm(ModelForm):
             'Cadastro de Conta',
             'bill_category','bill_type','installment_total','installment_sequence',
             'bill_charger','created_date','expiration_date',
-            'days_to_notify_before_expiration','status','value','note'
+            'days_to_notify_before_expiration','status','value','note','payment_date'
         ),
         HTML(
             '''
@@ -38,7 +38,7 @@ class BillModelForm(ModelForm):
         fields = (
             'bill_category','bill_type','installment_total','installment_sequence',
             'bill_charger','created_date','expiration_date',
-            'days_to_notify_before_expiration','status','value','note'
+            'days_to_notify_before_expiration','status','value','note','payment_date'
         )
 
     def __init__(self, *args,**kwargs):

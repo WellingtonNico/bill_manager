@@ -112,19 +112,25 @@
                             <th>Parcela</th>
                             <th>Status</th>
                             <th>Vence em</th>
+                            <th></th>
+                            <th>Paga em</th>
                             <th>Valor R$</th>
                             <th></th>
+                            <!-- coluna de dias faltando -->
+                            <!-- coluna de data de pagamento -->
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
                                 <tr data-toggle="tooltip" title="{{ obj.note }}">
-                                    <td>{{obj.created_date}}</td>
+                                    <td>{{obj.created_date|date:'d/m/Y'}}</td>
                                     <td>{{obj.bill_category.name}}</td>
                                     <td>{{obj.get_bill_type_display}}</td>
                                     <td>{{obj.bill_charger.name}}</td>
-                                    <td>{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}n/d{% endif %}</td>
+                                    <td>{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}-{% endif %}</td>
                                     <td><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
-                                    <td>{{obj.expiration_date}}</td>
+                                    <td>{% if obj.expiration_date is not none %}{{obj.expiration_date|date:'d/m/Y'}}{% else %}-{% endif %}</td>
+                                    <td>{{obj.get_days_to_expiration_date}}</td>
+                                    <td>{{obj.payment_date|date:'d/m/Y'}}</td>
                                     <td>{{obj.value}}</td>
                                     <td class="text-end m-0"><a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
                                 </tr>
