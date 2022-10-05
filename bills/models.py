@@ -22,6 +22,7 @@ class Bill(models.Model):
     payment_date = models.DateField(verbose_name='Data de pagamento',null=True,blank=True,validators=(only_date_lower_or_equal_today,))
     payment_type = models.CharField(choices=BILL_PAYMENT_TYPES,verbose_name='Tipo de pagamento',max_length=18,blank=True,null=True)
     payment_proof_file = models.FileField(null=True,blank=True,verbose_name='Comprovante de pagamento',upload_to=get_payment_proof_path,validators=(payment_proof_file_size_validator,payment_proof_file_format_validator))
+    bank = models.CharField(choices=BILL_PAYMENT_BANKS,blank=True,null=True,verbose_name='Banco',max_length=30)
     days_to_notify_before_expiration = models.IntegerField(verbose_name='Dias para notificar antes do vencimento',validators=(only_positive_numbers,))
     expiration_date = models.DateField(null=True,blank=True,verbose_name='Data de vencimento')
     expiration_notification_date = models.DateField(null=True,blank=True,verbose_name='Data para notificar vencimento')

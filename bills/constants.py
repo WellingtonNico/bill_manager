@@ -20,6 +20,17 @@ BILL_ORDERING_OPTIONS = (
     ('expiration_date','Expira em - mais antigas'),
 )
 
+BILL_PAYMENT_BANKS = (
+    ('BANCO_DO_BRASIL','BANCO DO BRASIL'),
+    ('BRADESCO','BRADESCO'),
+    ('CAIXA','CAIXA'),
+    ('ITAU','ITAÚ'),
+    ('ITI','ITI'),
+    ('MERCADO_PAGO','MERCADO PAGO'),
+    ('NUBANK','NUBANK'),
+    ('OTHER','OUTRO'),
+)
+
 BILL_PAYMENT_TYPES = (
     ('MONEY','DINHEIRO'),
     ('DEBIT','DÉBITO'),

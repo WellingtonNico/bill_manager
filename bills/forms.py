@@ -23,7 +23,7 @@ class BillModelForm(ModelForm):
         HTML('<hr>'),
         Fieldset(
             'Pagamento',
-            'payment_date','payment_type','payment_proof_file'
+            'payment_date','payment_type','bank','payment_proof_file'
         ),
         HTML(
             '''
@@ -54,7 +54,7 @@ class BillModelForm(ModelForm):
             'bill_category','bill_type','installment_total','installment_sequence',
             'bill_charger','created_date','expiration_date',
             'days_to_notify_before_expiration','status','value','note','payment_date',
-            'payment_type','payment_proof_file'
+            'payment_type','bank','payment_proof_file'
         )
 
     def __init__(self, *args,**kwargs):
@@ -70,6 +70,8 @@ class BillModelForm(ModelForm):
             installmentTotal = self.cleaned_data['installment_total']
             if not installmentTotal:
                 raise ValidationError('Este campo precisa ser preenchido quando a conta for parcelada')
+            if installmentTotal <=1:
+                raise ValidationError('Não use o tipo de conta PARCELADA com somente uma ou nenhuma parcela')
             return installmentTotal
         else:
             return None
@@ -78,11 +80,14 @@ class BillModelForm(ModelForm):
         billType = self.cleaned_data['bill_type']
         if billType == 'INSTALLED':
             installmentSequence = self.cleaned_data['installment_sequence']
-            installmentTotal = self.cleaned_data['installment_total']
+            installmentTotal = self.cleaned_data.get('installment_total',None)
             if not installmentSequence:
                 raise ValidationError('Este campo precisa ser preenchido quando a conta for parcelada')
-            if installmentSequence > installmentTotal:
-                raise ValidationError('O número da parcela não pode ser superior ao número total de parcelas')
+            if installmentTotal != None:
+                if installmentSequence > installmentTotal:
+                    raise ValidationError('O número da parcela não pode ser superior ao número total de parcelas')
+            else:
+                raise ValidationError('Não foi possível validar este campo pois o campo de total de parcelas possui erro')
             return installmentSequence
         else:
             return None
@@ -114,6 +119,15 @@ class BillModelForm(ModelForm):
         elif not payment_type:
             raise ValidationError('Ao alterar o status para PAGA, é necessário informar o tipo do pagamento')
         return payment_type
+
+    def clean_bank(self):
+        status = self.cleaned_data['status']
+        bank = self.cleaned_data['bank']
+        if status != 'PAID':
+            return None
+        elif not bank:
+            raise ValidationError('Ao alterar o status para PAGA, é necessário informar o banco')
+        return bank
     
     def clean_payment_proof_file(self):
         status = self.cleaned_data['status']
