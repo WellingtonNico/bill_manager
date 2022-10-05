@@ -62,9 +62,12 @@ class BillModelForm(ModelForm):
     def clean_installment_sequence(self):
         billType = self.cleaned_data['bill_type']
         installmentSequence = self.cleaned_data['installment_sequence']
+        installmentTotal = self.cleaned_data['installment_total']
         if billType == 'INSTALLED':
             if not installmentSequence:
                 raise ValidationError('Este campo precisa ser preenchido quando a conta for parcelada')
+            if installmentSequence > installmentTotal:
+                raise ValidationError('O número da parcela não pode ser superior ao número total de parcelas')
         return installmentSequence
 
     def clean_expiration_date(self):
