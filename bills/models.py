@@ -1,4 +1,5 @@
 import os
+import glob
 from datetime import datetime
 from django.db import models
 from django.urls import reverse_lazy
@@ -23,7 +24,6 @@ class Bill(models.Model):
     bill_charger:BillCharger = models.ForeignKey(BillCharger,on_delete=models.CASCADE,verbose_name='Cobrador')
     bill_category:BillCategory = models.ForeignKey(BillCategory,on_delete=models.CASCADE,verbose_name='Categoria')
     status = models.CharField(choices=BILL_STATUSES,default='UNDEFINED',max_length=9)
-    payment_proof_path = models.CharField(max_length=255,null=True,blank=True)
     note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
     value = models.FloatField(verbose_name='Valor')
 
@@ -48,8 +48,13 @@ class Bill(models.Model):
                 return f'{difference} dias'
         return '-'
 
-    def has_payment_proof(self):
-        ''' 
-        deve retornar verdadeiro se o arquivo referente a esta conta existir
-        '''
-        pass
+    def get_payment_proof_fulldir(self):
+        files = glob.glob(self.user.get_payment_proofs_dir()+f'{PAYMENT_PROOF_PREFIX_NAME}{self.id}.*')
+        if files:
+            return files[0]
+        return ''
+
+    def delete_payment_proof(self):
+        fullDir = self.get_payment_proof_fulldir()
+        if fullDir:
+            os.remove(fullDir)

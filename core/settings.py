@@ -181,3 +181,8 @@ CELERY_TASK_QUEUES = [
         queue,Exchange(queue),routing_key=queue,queue_arguments={'x-max-priority': CELERY_X_MAX_PRIORITY}
     ) for queue in QUEUES
 ]
+
+
+# configurações dos comrovantes de pagamento
+PAYMENT_PROOFS_MAX_LENGTH_KB = float(config('PAYMENT_PROOFS_MAX_LENGTH_KB'))
+PAYMENT_PROOFS_DIR = config('PAYMENT_PROOFS_DIR')

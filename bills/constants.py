@@ -27,3 +27,5 @@ BILL_PAYMENT_TYPES = (
     ('ONLINE','ONLINE'),
     ('TRANSFER','TRANSFERÊNCIA'),
 )
+
+PAYMENT_PROOF_PREFIX_NAME = 'payment_proof_'

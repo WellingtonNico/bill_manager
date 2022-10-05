@@ -1,7 +1,10 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from users.validators import document_validator
+from django.conf import settings
+from pathlib import Path
 
 
 class User(AbstractUser):
@@ -21,5 +24,13 @@ class User(AbstractUser):
 
     def get_billchargers(self):
         return self.billcharger_set.all()
+
+    def get_payment_proofs_dir(self):
+        fullDir = settings.PAYMENT_PROOFS_DIR+f'/user_{self.id}/'
+        if not os.path.exists(fullDir):
+            path = Path(fullDir)
+            path.mkdir(parents=True,exist_ok=True)
+        return fullDir
+
 
 
