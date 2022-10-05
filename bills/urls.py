@@ -8,5 +8,5 @@ urlpatterns = [
     path('create/',login_required(BillCreateView.as_view()),name='bill_create'),
     path('<int:pk>/update/',login_required(BillUpdateView.as_view()),name='bill_update'),
     path('<int:pk>/delete/',login_required(BillDeleteView.as_view()),name='bill_delete'),
-    path('<int:pk>/downoad_payment_proof/',login_required(BillDownloadPaymentProofView.as_view()),name='bill_downoad_payment_proof'),
+    path('<int:pk>/payment_proof_download/',login_required(BillPaymentProofDownloadView.as_view()),name='bill_payment_proof_download'),
 ]

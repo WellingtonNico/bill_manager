@@ -1,8 +1,6 @@
 from datetime import datetime
-from django.forms import ModelForm, ValidationError, FileField, FileInput
+from django.forms import ModelForm, ValidationError, FileField
 from django.conf import settings
-
-from bills.constants import PAYMENT_PROOF_PREFIX_NAME
 from .models import Bill
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML,Layout,Fieldset
@@ -35,7 +33,7 @@ class BillModelForm(ModelForm):
             '''
             {% if form.instance.id %}
                 {% if form.instance.get_payment_proof_fulldir %}
-                    <a download href="{% url 'bill_downoad_payment_proof' form.instance.id %}">Baixar comprovante</a>
+                    <a download href="{% url 'bill_payment_proof_download' form.instance.id %}">Baixar comprovante</a>
                 {% endif %}
             {% endif %}
             <div class="row mt-3 justify-content-center">
@@ -120,17 +118,19 @@ class BillModelForm(ModelForm):
     
     def clean_payment_proof(self):
         status = self.cleaned_data['status']
-        self.payment_proof_file = self.cleaned_data['payment_proof']
-        if status == 'PAID' and self.payment_proof_file:
-            if self.instance.id:
+        payment_proof = self.cleaned_data['payment_proof']
+        if payment_proof != None:
+            if not self.instance.id:
+                raise ValidationError('Para pode adicionar um comprovante, primeiro é necessário salvar o cadastro')
+            if status == 'PAID':
+                self.payment_proof_file = payment_proof
                 if len(self.payment_proof_file) > settings.PAYMENT_PROOFS_MAX_LENGTH_KB*1024:
                     raise ValidationError(f'O comprovante de pagamento excede o tamanho máximo permitido de {settings.PAYMENT_PROOFS_MAX_LENGTH_KB} KB')
                 if not 'image' in self.payment_proof_file.content_type and not 'pdf' in self.payment_proof_file.content_type:
                     raise ValidationError('Formato de arquivo não aceito, são permitidos somente PDFs e imagens')
-                
                 self.instance.payment_proof_file_name = self.payment_proof_file.name
             else:
-                raise ValidationError('Para pode adicionar um comprovante, primeiro é necessário salvar o cadastro')
+                raise ValidationError('Só é possível adicionar um comprovante quando o status por PAGO')
         return None
 
     def is_valid(self):
@@ -141,7 +141,7 @@ class BillModelForm(ModelForm):
         if hasattr(self,'payment_proof_file') and commit:
             self.instance.delete_payment_proof()
             open(
-                f"{self.current_user.get_payment_proofs_dir()}{PAYMENT_PROOF_PREFIX_NAME}{self.instance.id}.{self.payment_proof_file.name.split('.')[-1]}",
+                f"{self.current_user.get_payment_proofs_dir()}{settings.PAYMENT_PROOF_PREFIX_NAME}{self.instance.id}.{self.payment_proof_file.name.split('.')[-1]}",
                 '+wb'
             ).write(self.payment_proof_file.read())
         return super().save(commit)

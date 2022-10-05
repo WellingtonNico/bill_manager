@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from users.validators import document_validator
 from django.conf import settings
 from pathlib import Path
+import shutil
 
 
 class User(AbstractUser):
@@ -25,12 +26,19 @@ class User(AbstractUser):
     def get_billchargers(self):
         return self.billcharger_set.all()
 
+    def get_full_payment_proofs_dir(self):
+        return settings.PAYMENT_PROOFS_DIR+f'/user_{self.id}/'
+
     def get_payment_proofs_dir(self):
-        fullDir = settings.PAYMENT_PROOFS_DIR+f'/user_{self.id}/'
+        fullDir = self.get_full_payment_proofs_dir()
         if not os.path.exists(fullDir):
             path = Path(fullDir)
             path.mkdir(parents=True,exist_ok=True)
         return fullDir
+
+    def delete_payment_proofs_folder(self):
+        shutil.rmtree(self.get_full_payment_proofs_dir())
+
 
 
 

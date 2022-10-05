@@ -2,6 +2,7 @@ import os
 import glob
 from datetime import datetime
 from django.db import models
+from django.conf import settings
 from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
 from bill_chargers.models import BillCharger
@@ -49,7 +50,7 @@ class Bill(models.Model):
         return '-'
 
     def get_payment_proof_fulldir(self):
-        files = glob.glob(self.user.get_payment_proofs_dir()+f'{PAYMENT_PROOF_PREFIX_NAME}{self.id}.*')
+        files = glob.glob(self.user.get_payment_proofs_dir()+f'{settings.PAYMENT_PROOF_PREFIX_NAME}{self.id}.*')
         if files:
             return files[0]
         return ''

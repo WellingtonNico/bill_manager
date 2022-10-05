@@ -39,7 +39,7 @@ class BillDeleteView(DeleteView):
         return self.request.user.get_bills()
 
 
-class BillDownloadPaymentProofView(DetailView):
+class BillPaymentProofDownloadView(DetailView):
     def get_queryset(self):
         return self.request.user.get_bills()
 
