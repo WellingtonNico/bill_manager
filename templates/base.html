@@ -11,8 +11,24 @@
                 <a class="nav-link"  href="{% url 'billcategory_list' %}">Minhas Categorias</a>
                 <a class="nav-link"  href="{% url 'billcharger_list' %}">Meus Cobradores</a>
             </div>
-            <div style="margin-left:auto;">
-                <a  class="nav-link text-dark" href="{% url 'logout' %}"><i class="material-icons">logout</i> Sair</a> 
+            
+
+            <div class="nav-item dropdown mt-3 mt-lg-0" style="margin-left:auto;">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownMenu2" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
+                    <span id="user_nav_span" class="text-dark">
+                        <i class="material-icons">user</i>
+                        <span class="text-capitalize"> {{ user.first_name }}</span>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenu2">
+                    <a class="dropdown-item" href="{% url 'password_change' %}">
+                        alterar senha
+                    </a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">
+                        sair
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
