@@ -11,7 +11,11 @@ sudo chmod 777 /etc/bill_manager/media/payment_proofs
 echo ""
 echo ""
 echo "Copiando pasta com arquivos do projeto para pasta criada..."
-cp -r docker /etc/bill_manager
+sudo cp -r docker /etc/bill_manager
+echo ""
+echo ""
+echo "Copiando crontab..."
+sudo cp bill_manager_crontab /etc/cron.d/bill_manager_crontab
 echo ""
 echo ""
 echo "pronto."

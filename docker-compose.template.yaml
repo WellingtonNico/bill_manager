@@ -68,7 +68,7 @@ services:
     env_file:
       - ./docker.env
     depends_on:
-      - dmweb1
+      - bmweb1
       - bmdb
       - bmrabbitmq
 

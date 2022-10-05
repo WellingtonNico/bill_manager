@@ -1,0 +1,2 @@
+# este comando irá rodar todos os dias para manter todas as contas atualiadas, sendo a hora == 3 em horário utc, será rodado as 00
+3 3 * * * sudo docker exec fcpweb1 sh -c "python3 manage.py every_day"
