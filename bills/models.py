@@ -59,8 +59,11 @@ class Bill(models.Model):
             return 'EXPIRES_TODAY'
         if datetime.now().date() > self.expiration_date:
             return 'EXPIRED'
-        if (datetime.now().date() -timedelta(days=self.days_to_notify_before_expiration)) <= datetime.now().date() < self.expiration_date:
-            return 'WARNING'
+        if self.expiration_date:
+            if (datetime.now().date() -timedelta(days=self.days_to_notify_before_expiration)) < datetime.now().date() < self.expiration_date:
+                return 'WARNING'
+            else:
+                return 'TO_EXPIRE'
         return 'UNDEFINED'
         
 

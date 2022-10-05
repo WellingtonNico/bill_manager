@@ -7,7 +7,7 @@ BILL_TYPES = (
 BILL_STATUSES = (
     ('UNDEFINED','INDEFINIDO'),
     ('TO_EXPIRE','A VENCER'),
-    ('EXPIRED','EXPIRADA'),
+    ('EXPIRED','VENCIDA'),
     ('EXPIRES_TODAY','VENCE HOJE'),
     ('WARNING','ATENÇÃO'),
     ('PAID','PAGA'),
