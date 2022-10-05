@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.forms import ModelForm, ValidationError
 from .models import Bill
 from bill_categories.models import BillCategory
@@ -13,7 +14,8 @@ class BillModelForm(ModelForm):
             'Cadastro de Conta',
             'bill_category','bill_type','installment_total','installment_sequence',
             'bill_charger','created_date','expiration_date',
-            'days_to_notify_before_expiration','status','value','note','payment_date'
+            'days_to_notify_before_expiration','status','value','note','payment_date',
+            'payment_type'
         ),
         HTML(
             '''
@@ -38,11 +40,13 @@ class BillModelForm(ModelForm):
         fields = (
             'bill_category','bill_type','installment_total','installment_sequence',
             'bill_charger','created_date','expiration_date',
-            'days_to_notify_before_expiration','status','value','note','payment_date'
+            'days_to_notify_before_expiration','status','value','note','payment_date',
+            'payment_type'
         )
 
     def __init__(self, *args,**kwargs):
-        self.current_user = kwargs.pop('current_user')
+        custom_kwargs = kwargs.pop('custom_kwargs')
+        self.current_user = custom_kwargs['current_user']
         super().__init__(*args,**kwargs)
         self.fields['bill_category'].queryset = self.current_user.get_billcategories()
         self.fields['bill_charger'].queryset = self.current_user.get_billchargers()
@@ -52,7 +56,7 @@ class BillModelForm(ModelForm):
         installmentTotal = self.cleaned_data['installment_total']
         if billType == 'INSTALLED':
             if not installmentTotal:
-                raise ValidationError('Este campo precisa ser preenchido quando o tipo da conta for parcelada')
+                raise ValidationError('Este campo precisa ser preenchido quando a conta for parcelada')
         return installmentTotal
 
     def clean_installment_sequence(self):
@@ -60,8 +64,33 @@ class BillModelForm(ModelForm):
         installmentSequence = self.cleaned_data['installment_sequence']
         if billType == 'INSTALLED':
             if not installmentSequence:
-                raise ValidationError('Este campo precisa ser preenchido quando o tipo da conta for parcelada')
+                raise ValidationError('Este campo precisa ser preenchido quando a conta for parcelada')
         return installmentSequence
+
+    def clean_expiration_date(self):
+        created_date = self.cleaned_data['created_date']
+        expiration_date = self.cleaned_data['expiration_date']
+        if expiration_date:
+            if created_date > expiration_date:
+                raise ValidationError('A data de vencimento não pode ser inferior a data de criação')
+        return expiration_date
+
+    def clean_payment_date(self):
+        status = self.cleaned_data['status']
+        payment_date = self.cleaned_data['payment_date']
+        if payment_date:
+            if payment_date > datetime.now().date():
+                raise ValidationError('A data de pagamento não pode ser superior ao dia atual')
+        elif status == 'PAID':
+            raise ValidationError('Ao alterar o status para PAGA, deve informar a data do pagamento')
+        return payment_date
+
+    def clean_payment_type(self):
+        status = self.cleaned_data['status']
+        payment_type = self.cleaned_data['payment_type']
+        if status == 'PAID' and not payment_type:
+            raise ValidationError('Ao alterar o status para PAGA, é necessário informar o tipo do pagamento')
+        return payment_type
 
     def is_valid(self):
         self.instance.user = self.current_user

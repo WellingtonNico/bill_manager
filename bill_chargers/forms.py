@@ -29,7 +29,8 @@ class BillChargerModelForm(ModelForm):
         )
 
     def __init__(self, *args,**kwargs):
-        self.current_user = kwargs.pop('current_user')
+        custom_kwargs = kwargs.pop('custom_kwargs')
+        self.current_user = custom_kwargs['current_user']
         super().__init__(*args,**kwargs)
 
     def is_valid(self):

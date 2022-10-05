@@ -1,5 +1,5 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import UpdateView,CreateView
+from django.views.generic import UpdateView,CreateView,ListView
 
 
 class CustomContextMixin:
@@ -61,7 +61,7 @@ class CustomUpdateView(CustomContextMixin,SuccessMessageMixin,UpdateView):
         return f'{self.model._meta.verbose_name} atualizad{gender} com sucesso!' 
 
 
-class ListViewFilterMixin:
+class CustomListView(CustomContextMixin,ListView):
     page_size_param = 'page_size'
     page_number_param = 'page'
     page_ordering_param = 'ordering'
@@ -69,6 +69,7 @@ class ListViewFilterMixin:
     default_page_size = 40
     exclude_params = []
     list_params = []
+    get_queryset_function_to_eval = ''
 
     def get_ordering(self):
         return self.request.GET.get(self.page_ordering_param,self.default_ordering)
@@ -87,4 +88,14 @@ class ListViewFilterMixin:
                     else:
                         filters[key] = value
         return filters
+    
+    def get_queryset(self):
+        if self.get_queryset_function_to_eval:
+            queryset = eval(self.get_queryset_function_to_eval)().filter(**self.build_filters_dict())
+        else:
+            queryset = super().get_queryset().filter(**self.build_filters_dict())
+        ordering = self.get_ordering()
+        if ordering:
+            return queryset.order_by(ordering)
+        return queryset
 

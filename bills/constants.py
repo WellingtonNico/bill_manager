@@ -18,3 +18,12 @@ BILL_ORDERING_OPTIONS = (
     ('-expiration_date','Expira em - mais recentes'),
     ('expiration_date','Expira em - mais antigas'),
 )
+
+BILL_PAYMENT_TYPES = (
+    ('MONEY','DINHEIRO'),
+    ('DEBIT','DÉBITO'),
+    ('CREDIT','CRÉDITO'),
+    ('PIX','PIX'),
+    ('ONLINE','ONLINE'),
+    ('TRANSFER','TRANSFERÊNCIA'),
+)

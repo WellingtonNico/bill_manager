@@ -3,10 +3,10 @@
 {% block title %}
     Login
 {% endblock %}
-{% block body %}
+{% block very_body %}
     <div class="row justify-content-center align-items-center" style="min-height: 100vh !important;" >
         <div class="col-12 col-md-6 col-lg-4" >
-            <form class="card shadow p-3" action="" method="POST">
+            <form class="card bg-light shadow p-3" action="" method="POST">
                 {% csrf_token %}
                 {% crispy form %}
             </form>

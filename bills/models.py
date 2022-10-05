@@ -1,20 +1,23 @@
+import os
 from datetime import datetime
 from django.db import models
 from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
 from bill_chargers.models import BillCharger
 from bills.constants import *
+from bills.validators import *
 from users.models import User
 
 
 class Bill(models.Model):
     user:User = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='Usuário')
     bill_type = models.CharField(choices=BILL_TYPES,verbose_name='Tipo',max_length=18)
-    installment_total = models.IntegerField(null=True,blank=True,verbose_name='Quantidade de parcelas')
-    installment_sequence = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela')
+    installment_total = models.IntegerField(null=True,blank=True,verbose_name='Quantidade de parcelas',validators=(only_greater_than_zero,))
+    installment_sequence = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela',validators=(only_greater_than_zero,))
     created_date = models.DateField(verbose_name='Data de criação')
-    payment_date = models.DateField(verbose_name='Data de pagamento',null=True,blank=True)
-    days_to_notify_before_expiration = models.IntegerField(verbose_name='Dias para notificar antes do vencimento')
+    payment_date = models.DateField(verbose_name='Data de pagamento',null=True,blank=True,validators=(only_date_lower_or_equal_today,))
+    payment_type = models.CharField(choices=BILL_PAYMENT_TYPES,verbose_name='Tipo de pagamento',max_length=18,blank=True,null=True)
+    days_to_notify_before_expiration = models.IntegerField(verbose_name='Dias para notificar antes do vencimento',validators=(only_positive_numbers,))
     expiration_date = models.DateField(null=True,blank=True,verbose_name='Data de vencimento')
     expiration_notification_date = models.DateField(null=True,blank=True,verbose_name='Data para notificar vencimento')
     bill_charger:BillCharger = models.ForeignKey(BillCharger,on_delete=models.CASCADE,verbose_name='Cobrador')
@@ -24,8 +27,6 @@ class Bill(models.Model):
     note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
     value = models.FloatField(verbose_name='Valor')
 
-    # data pagamento
-    # forma de pagamento
     # banco
 
     gender = 'a'
@@ -46,3 +47,9 @@ class Bill(models.Model):
             else:
                 return f'{difference} dias'
         return '-'
+
+    def has_payment_proof(self):
+        ''' 
+        deve retornar verdadeiro se o arquivo referente a esta conta existir
+        '''
+        pass
