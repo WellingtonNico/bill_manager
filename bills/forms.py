@@ -98,26 +98,31 @@ class BillModelForm(ModelForm):
     def clean_payment_date(self):
         status = self.cleaned_data['status']
         payment_date = self.cleaned_data['payment_date']
-        if payment_date:
-            if payment_date > datetime.now().date():
-                raise ValidationError('A data de pagamento não pode ser superior ao dia atual')
-        elif status == 'PAID':
+        if status != 'PAID':
+            return None
+        elif not payment_date:
             raise ValidationError('Ao alterar o status para PAGA, deve informar a data do pagamento')
+        elif payment_date > datetime.now().date():
+            raise ValidationError('A data de pagamento não pode ser superior ao dia atual')
         return payment_date
 
     def clean_payment_type(self):
         status = self.cleaned_data['status']
         payment_type = self.cleaned_data['payment_type']
-        if status == 'PAID' and not payment_type:
+        if status != 'PAID':
+            return None
+        elif not payment_type:
             raise ValidationError('Ao alterar o status para PAGA, é necessário informar o tipo do pagamento')
         return payment_type
     
     def clean_payment_proof_file(self):
         status = self.cleaned_data['status']
         payment_proof_file = self.cleaned_data['payment_proof_file']
-        if payment_proof_file and status != 'PAID':
+        if status == 'PAID':
+            return payment_proof_file
+        elif payment_proof_file:
             raise ValidationError('Só é possível adicionar um comprovante quando o status por PAGO')
-        return payment_proof_file
+        return False
 
     def is_valid(self):
         self.instance.user = self.current_user
