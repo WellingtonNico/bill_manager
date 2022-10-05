@@ -1,0 +1,42 @@
+ul.context-messages {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 3rem;
+    /* width: 100%; */
+    left: 0;
+    list-style: none;
+    padding: 0 !important;
+    z-index: 1000;
+    justify-content: center;
+    pointer-events: none;
+}
+
+ul.context-messages>li {
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0;
+    animation: taadaa 4s;
+}
+
+
+li.error-message,
+.errorlist,
+.danger-card {
+    list-style: inside;
+    margin-top: 5px !important;
+    background-color: rgb(250, 219, 219);
+    border: solid 2px rgb(253, 84, 84);
+    color: rgb(247, 57, 57) !important;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+li.success-message,
+.success-card {
+    background-color: rgb(195, 237, 212);
+    border: solid 2px rgb(74, 197, 80);
+    color: rgb(80, 145, 91);
+    padding: 5px;
+    border-radius: 8px;
+}
