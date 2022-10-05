@@ -17,10 +17,8 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <div class="m-0 p-0">
-            {% block very_body %}
-            {% endblock %}
-        </div>
+        {% block very_body %}
+        {% endblock %}
     </body>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
