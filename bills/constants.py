@@ -28,6 +28,10 @@ BILL_PAYMENT_BANKS = (
     ('ITI','ITI'),
     ('MERCADO_PAGO','MERCADO PAGO'),
     ('NUBANK','NUBANK'),
+    ('PAG_SEGURO','PAG SEGURO'),
+    ('PAY_PAL','PAY PAL'),
+    ('PIC_PAY','PIC PAY'),
+    ('SANTANDER','SANTANDER'),
     ('OTHER','OUTRO'),
 )
 
