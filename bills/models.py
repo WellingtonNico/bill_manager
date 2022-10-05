@@ -27,7 +27,7 @@ class Bill(models.Model):
     expiration_notification_date = models.DateField(null=True,blank=True,verbose_name='Data para notificar vencimento')
     bill_charger:BillCharger = models.ForeignKey(BillCharger,on_delete=models.CASCADE,verbose_name='Cobrador')
     bill_category:BillCategory = models.ForeignKey(BillCategory,on_delete=models.CASCADE,verbose_name='Categoria')
-    status = models.CharField(choices=BILL_STATUSES,default='UNDEFINED',max_length=9)
+    status = models.CharField(choices=BILL_STATUSES,default='UNDEFINED',max_length=13)
     note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
     value = models.FloatField(verbose_name='Valor')
 
@@ -51,3 +51,8 @@ class Bill(models.Model):
             else:
                 return f'{difference} dias'
         return '-'
+
+    def get_updated_status(self):
+        if self.status == 'PAID':
+            return self.status
+        
