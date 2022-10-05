@@ -35,7 +35,7 @@ class BillModelForm(ModelForm):
             '''
             {% if form.instance.id %}
                 {% if form.instance.get_payment_proof_fulldir %}
-                    <a href="#">Baixar comprovante</a>
+                    <a download href="{% url 'bill_downoad_payment_proof' form.instance.id %}">Baixar comprovante</a>
                 {% endif %}
             {% endif %}
             <div class="row mt-3 justify-content-center">

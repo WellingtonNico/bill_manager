@@ -1,9 +1,10 @@
+from io import BytesIO
 from django.urls import reverse_lazy
-from django.views.generic import ListView,DeleteView
+from django.views.generic import DeleteView,DetailView
 from bills.constants import *
 from bills.forms import BillModelForm
 from bills.models import Bill
-
+from django.http import FileResponse,Http404
 from core.view_classes import CustomCreateView, CustomUpdateView, CustomListView
 
 
@@ -36,3 +37,18 @@ class BillDeleteView(DeleteView):
 
     def get_queryset(self):
         return self.request.user.get_bills()
+
+
+class BillDownloadPaymentProofView(DetailView):
+    def get_queryset(self):
+        return self.request.user.get_bills()
+
+    def get(self,request,*args,**kwargs):
+        obj:Bill = self.get_object()
+        fullDir = obj.get_payment_proof_fulldir()
+        if not fullDir:
+            raise Http404()
+        fileResponse = FileResponse(
+            open(fullDir,'rb')
+        )
+        return fileResponse
