@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
         <div class="col-12 ">
             <form id="filter_form" action="?" class="card bg-light shadow p-3" method="get">
-                <div class="row">
+                <div class="row justify-content-center">
                     <div class="col-4 mt-2">
                         <label >Categoria:</label>
                         <select name="bill_category"  class="form-control">
@@ -80,20 +80,30 @@
                         </select>
                     </div>
                     <div class="col-4 mt-2">
-                        <label >Ordenar por:</label>
-                        <select class="form-control" name="ordering">
-                            {% for key,value in BILL_ORDERING_OPTIONS %}
-                                <option {% if key == request.GET.ordering %}selected{%endif%} value="{{key}}">{{value}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
                         <label>Criada em:</label>
                         <input name="created_date" class="form-control" type="date" value="{{request.GET.created_date}}">
                     </div>
                     <div class="col-4 mt-2">
                         <label>Vence em:</label>
                         <input name="expiration_date" class="form-control" type="date" value="{{request.GET.expiration_date}}">
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label >Banco:</label>
+                        <select class="form-control" name="bank">
+                            <option value="">todos</option>
+                            {% for key,value in BILL_PAYMENT_BANKS %}
+                                <option {% if key == request.GET.bank %}selected{%endif%} value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label >Ordenar por:</label>
+                        <select class="form-control" name="ordering">
+                            <option value="">padrão</option>
+                            {% for key,value in BILL_ORDERING_OPTIONS %}
+                                <option {% if key == request.GET.ordering %}selected{%endif%} value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="col-4 mt-2">
                         <label >Tamanho da página:</label>
@@ -123,11 +133,10 @@
                             <th>Vence em</th>
                             <th></th>
                             <th>Paga em</th>
-                            <th>Pagamento</th>
+                            <th>Tipo pagamento</th>
+                            <th>Banco</th>
                             <th>Valor R$</th>
                             <th></th>
-                            <!-- coluna de dias faltando -->
-                            <!-- coluna de data de pagamento -->
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
@@ -142,6 +151,7 @@
                                     <td>{{obj.get_days_to_expiration_date}}</td>
                                     <td>{{obj.payment_date|date:'d/m/Y'}}</td>
                                     <td>{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
+                                    <td>{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
                                     <td>{{obj.value}}</td>
                                     <td class="text-end m-0"><a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
                                 </tr>
@@ -159,14 +169,14 @@
                     <ul class="pagination justify-content-center">
                         {% if page_obj.number != 1 %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=1&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}" aria-label="Primeira">
+                                <a class="page-link" href="?page=1&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Primeira">
                                     <span aria-hidden="true"><<</span>
                                 </a>
                             </li>
                         {% endif %}
                         {% if page_obj.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{page_obj.previous_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}" aria-label="Anterior">
+                                <a class="page-link" href="?page={{page_obj.previous_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Anterior">
                                     <span aria-hidden="true"><</span>
                                 </a>
                             </li>
@@ -174,14 +184,14 @@
                         <li class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></li>
                         {% if page_obj.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{page_obj.next_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}" aria-label="Próxima">
+                                <a class="page-link" href="?page={{page_obj.next_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Próxima">
                                     <span aria-hidden="true">></span>
                                 </a>
                             </li>
                         {% endif %}
                         {% if page_obj.number != page_obj.paginator.num_pages %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}" aria-label="Última">
+                                <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Última">
                                     <span aria-hidden="true">>></span>
                                 </a>
                             </li>

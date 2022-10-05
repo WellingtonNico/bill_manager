@@ -1,5 +1,4 @@
 BILL_TYPES = (
-    ('FIXED','FIXA'),
     ('INSTALLED','PARCELADA'),
     ('UNIQUE_INSTALLMENT','PARCELA ÚNICA'),
 )

@@ -10,3 +10,8 @@
 legend{
     text-align: center !important;
 }
+
+.nav-link.active{
+    color: #31977f !important;
+    font-weight: bold; 
+}

@@ -14,6 +14,7 @@ class BillListView(CustomListView):
         'BILL_STATUSES':BILL_STATUSES,
         'BILL_ORDERING_OPTIONS':BILL_ORDERING_OPTIONS,
         'BILL_PAYMENT_TYPES':BILL_PAYMENT_TYPES,
+        'BILL_PAYMENT_BANKS':BILL_PAYMENT_BANKS,
         'PAGE_SIZES':[5,10,20,30,40,50],
     }
     default_ordering = '-created_date' 

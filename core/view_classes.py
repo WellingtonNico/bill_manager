@@ -75,7 +75,10 @@ class CustomListView(CustomContextMixin,ListView):
         return self.request.GET.get(self.page_ordering_param,self.default_ordering)
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get(self.page_size_param,self.default_page_size)
+        self.request.GET._mutable = True
+        paginate_by = self.request.GET.get(self.page_size_param,self.default_page_size)
+        self.request.GET[self.page_size_param] = paginate_by
+        return paginate_by
 
     def build_filters_dict(self) -> dict:
         filters = {}
