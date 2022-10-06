@@ -48,8 +48,6 @@
                     minimumInputLength:0
                 }
             )
-        })
-        $(document).ready(()=>{
             $('#id_bill_charger').select2(
                 {
                     language:"pt-BR",
@@ -57,6 +55,9 @@
                     minimumInputLength:0
                 }
             )
+            $('#id_expiration_date').mask('00/00/0000')
+            $('#id_created_date').mask('00/00/0000')
+            $('#id_value').mask('#.##0,00', {reverse: true})
         })
     </script>
 {% endblock %}

@@ -1,10 +1,11 @@
 from datetime import datetime
-from django.forms import BooleanField, ModelForm, ValidationError, CheckboxInput
+from django.forms import BooleanField, ModelForm, ValidationError, CheckboxInput, CharField, TextInput
 from .models import Bill
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML,Layout,Fieldset
 
 class BillModelForm(ModelForm):
+    value = CharField(min_length=0,max_length=255)
     create_all_installments = BooleanField(
         label='Cadastrar parcelas subsequentes',required=False,
         widget=CheckboxInput(attrs={'class':'check-form-input'}),
@@ -66,6 +67,8 @@ class BillModelForm(ModelForm):
                 '''
             )
         )
+    def clean_value(self):
+        return  float(self.cleaned_data['value'].replace('.','').replace(',','.'))
     
     def clean_installment_total(self):
         billType = self.cleaned_data['bill_type']
