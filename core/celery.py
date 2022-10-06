@@ -21,8 +21,6 @@ def restore(sender=None,conf=None,**kwargs):
 
 # filas usadas para o celery
 REAL_TIME_QUEUE = settings.QUEUES[0]
-FAST_TASK_QUEUE = settings.QUEUES[1]
-HEAVY_TASKS_QUEUE = settings.QUEUES[2]
 
 
 # níveis de prioridade para o celery

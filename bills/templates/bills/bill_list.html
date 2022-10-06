@@ -89,12 +89,12 @@
                                     <td class="text-end m-0">
                                         {% if obj.status != 'PAID' %}
                                             <a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i></a>
-                                            <button onclick="document.querySelector('#payment_form').setAttribute('action','{% url 'bill_pay' obj.id %}')" class="m-0 btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#bill_payment_modal"><i class="material-icons">attach_money</i></button>
+                                            <button data-toggle="tooltip" title="registrar pagamento" onclick="document.querySelector('#payment_form').setAttribute('action','{% url 'bill_pay' obj.id %}')" class="m-0 btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#bill_payment_modal"><i class="material-icons">attach_money</i></button>
                                         {% else %}
                                             {% if obj.payment_proof_file.file is not none %}
                                                 <a data-toggle="tooltip" title="baixar comprovante de pagamento" class="btn btn-sm btn-outline-primary" download href="{% url 'bill_payment_proof_download' obj.id %}"><i class="material-icons">file_download</i></a>
                                             {% endif %}
-                                            <button onclick="document.querySelector('#undo_payment_form').setAttribute('action','{% url 'bill_undo_payment' obj.id %}')" data-bs-toggle="modal" data-bs-target="#undo_payment_modal" type="button" class="m-0 btn btn-sm btn-dark"><i class="material-icons">undo</i></button>
+                                            <button data-toggle="tooltip" title="estornar pagamento" onclick="document.querySelector('#undo_payment_form').setAttribute('action','{% url 'bill_undo_payment' obj.id %}')" data-bs-toggle="modal" data-bs-target="#undo_payment_modal" type="button" class="m-0 btn btn-sm btn-dark"><i class="material-icons">undo</i></button>
                                         {% endif %}
                                     </td>
                                 </tr>

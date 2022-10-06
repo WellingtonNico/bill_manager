@@ -34,6 +34,8 @@ def bill_post_save_signal_handler(sender:Bill,instance:Bill,created,*args,**kwar
                 newExpirationDate += timedelta(days=2)
             newExpirationDate = newExpirationDate.replace(day=instance.expiration_date.day)
             installmentBill.expiration_date = newExpirationDate
+            installmentBill.expiration_notification_date = installmentBill.expiration_date - timedelta(days=instance.days_to_notify_before_expiration)
+            installmentBill.status = installmentBill.get_updated_status()
             installmentBills.append(installmentBill)
         Bill.objects.bulk_create(installmentBills)
 
