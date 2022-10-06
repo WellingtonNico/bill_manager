@@ -15,6 +15,7 @@ from django.contrib.auth.views import (
 )
 
 from core.forms import *
+from core.views import SupportView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +30,7 @@ urlpatterns = [
     # REGISTRAÇÃO e CONTROLE
     path('login/',LoginView.as_view(),name='login'),
     path('logout/',LogoutView.as_view(),name='logout'),
-    # path('support',login_required(SupportView.as_view()),name='support'),
+    path('support/',login_required(SupportView.as_view()),name='support'),
     path('support_sent_confirmation',login_required(TemplateView.as_view(template_name='support/support_sent_confirmation.html')),name='support_sent_confirmation'),
     path('support/tutorials',login_required(TemplateView.as_view(template_name='support/tutorials.html')),name='support_tutorials'),
     path('password_change/', login_required(PasswordChangeView.as_view(form_class=CustomPasswordChangeForm)), name='password_change'),
