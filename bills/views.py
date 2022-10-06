@@ -1,13 +1,11 @@
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
-from django.views.generic import DeleteView,DetailView
-from bills.constants import *
-from bills.forms import BillModelForm, BillPaymentForm
-from bills.models import Bill
-from django.http import FileResponse,Http404
-from bills.tasks import build_email_relatory, process_user_bills
-from core.tasks import send_mail_task
 from core.view_classes import CustomCreateView, CustomUpdateView, CustomListView
+from bills.constants import *
+from bills.models import Bill
+from bills.forms import BillModelForm, BillPaymentForm
+from django.http import FileResponse
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.views.generic import DeleteView,DetailView
 
 
 class BillListView(CustomListView):
@@ -73,7 +71,6 @@ class BillUndoPaymentUpdateView(CustomUpdateView):
 
     def get_sucess_message(self,cleaned_data):
         return 'Estorno realizado com sucesso!'
-
 
 
 class BillPaymentUpdateView(CustomUpdateView):
