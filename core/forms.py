@@ -8,6 +8,21 @@ from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm,SetPa
 
 
 class SupportForm(forms.Form):
+    helper = FormHelper()
+    helper.layout = Layout(
+        Fieldset(
+            'Formulário de suporte',
+            'support_reason','support_reason_explanation','support_text',
+            'support_attachments','answer_to_email'
+        ),
+        HTML(
+            ''' 
+            <div class="col text-center">
+                <button type="submit" class="btn btn-success"><i class="material-icons">send</i> enviar</button>
+            </div>
+            '''
+        )
+    )
     support_reason = forms.ChoiceField(
         label='Motivo do suporte',
         choices=(
@@ -18,33 +33,34 @@ class SupportForm(forms.Form):
             ("Relatar um problema","Relatar um problema"),
             ("Outro motivo","Outro motivo"),
         ),
-        widget=forms.Select(
-            attrs={
-                'class':'form-control w50'
-            }
-        )
+        # widget=forms.Select(
+        #     attrs={
+        #         'class':'form-control w50'
+        #     }
+        # )
     )
     support_reason_explanation = forms.CharField(
         label='Breve explicação do motivo',max_length=45,min_length=5,required=False,
         help_text='Caso sua opção acima for "Outro motivo", será necessário que deixe uma breve explicação',
-        widget=forms.TextInput(attrs={'class':'form-control w-100'})
+        # widget=forms.TextInput(attrs={'class':'form-control w-100'})
     )
     support_text = forms.CharField(
         label='Escreva seu requerimento aqui',
-        min_length=20,max_length=400,widget=forms.Textarea(
-            attrs={'class':'form-control w-100','rows':3,'onkeyup':"increaseTextAreaRows('id_support_text')"}
+        min_length=20,max_length=400,
+        widget=forms.Textarea(
+            attrs={'class':'form-control w-100','rows':3}
         )
     )
     support_attachments = forms.FileField(
         label='Anexos',required=False,
         help_text='Anexe imagens para um melhor esclarecimento da situação(no máximo 5 imagens até 1MB de tamanho)',
         widget=forms.FileInput(
-            attrs={'class':'form-control','multiple':True}
+            attrs={'multiple':True}
         )
     )
     answer_to_email = forms.EmailField(
         label='Responder para o e-mail',help_text='Insira um e-mail específico para a resposta, se acaso for necessário',
-        required=False,widget=forms.EmailInput(attrs={'class':'form-control'})
+        required=False
     )
 
     def __init__(self,*args,**kwargs):
