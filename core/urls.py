@@ -15,7 +15,7 @@ from django.contrib.auth.views import (
 )
 
 from core.forms import *
-from core.views import AccessSolicitationView, SupportView
+from core.views import ContactSolicitationView, SupportView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,5 +38,5 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(form_class=CustomSetPasswordForm), name='password_reset_confirm'),
     path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('password_reset/', PasswordResetView.as_view(html_email_template_name='registration/password_reset_email.html',form_class=CustomPasswordResetForm), name='password_reset'),
-    path('access_solicitation/', AccessSolicitationView.as_view(), name='access_solicitation'),
+    path('contact_solicitation/', ContactSolicitationView.as_view(), name='contact_solicitation'),
 ]

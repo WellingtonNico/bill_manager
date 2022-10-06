@@ -151,12 +151,24 @@ class AccessSolicitationForm(forms.Form):
     )
     def is_valid(self) -> bool:
         if super().is_valid():
+            self.send()
             return True
         return False
 
     def send(self):
-        emailContent = ''
-        subject = ''
+        subject = f"Solicitação de Contato - {self.cleaned_data['name']}"
+        emailContent = f''' 
+Solicitação de Contato
+
+Nome: {self.cleaned_data['name']}
+
+Email: {self.cleaned_data['email']}'''
+        phone = self.cleaned_data.get('phone',None)
+        if phone:
+            emailContent += f'\n\nTelefone: {phone}'
+        message = self.cleaned_data.get('message',None)
+        if message:
+            emailContent += f'\n\nMensagem: {message}'
         send_mail_task.apply_async(
             args=(
                 [settings.OWNER_EMAIL_RECEIVER],

@@ -12,7 +12,7 @@ class SupportView(CustomContextMixin,SuccessMessageMixin,FormView):
     success_url = reverse_lazy('support_sent_confirmation')
 
 
-class AccessSolicitationView(SuccessMessageMixin,FormView):
+class ContactSolicitationView(SuccessMessageMixin,FormView):
     template_name = 'support/contact_form.html'
     form_class = AccessSolicitationForm
     success_url = reverse_lazy('login')
