@@ -18,5 +18,5 @@ class AccessSolicitationView(SuccessMessageMixin,FormView):
     success_url = reverse_lazy('login')
 
     def get_success_message(self, cleaned_data) -> str:
-        return 'Recebemos a sua solicitação, assim que possível entraremos em contato'
+        return 'Recebemos a sua solicitação, assim que possível entraremos em contato. Obrigado!'
     

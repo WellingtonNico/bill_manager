@@ -154,6 +154,18 @@ class AccessSolicitationForm(forms.Form):
             return True
         return False
 
+    def send(self):
+        emailContent = ''
+        subject = ''
+        send_mail_task.apply_async(
+            args=(
+                [settings.OWNER_EMAIL_RECEIVER],
+                subject,
+                emailContent
+            )
+        )
+
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     helper = FormHelper()

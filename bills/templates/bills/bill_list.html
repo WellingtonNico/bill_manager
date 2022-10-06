@@ -6,7 +6,7 @@
 {% block body %}
     <style>
         .bill_UNDEFINED{
-            background-color: rgb(109, 70, 70);
+            background-color: rgb(110, 75, 75);
             color: white;
         }
         .bill_TO_EXPIRE{
@@ -18,11 +18,11 @@
             color: white;
         }
         .bill_EXPIRES_TODAY{
-            background-color: rgb(205, 65, 65);
+            background-color: rgb(67, 161, 88);
             color: white;
         }
         .bill_WARNING{
-            background-color: rgb(223, 196, 76);
+            background-color: rgb(244, 213, 73);
             color: black;
         }
         .bill_PAID{
@@ -62,11 +62,11 @@
                                     <!-- Criada em -->
                                     <td class="text-center">{{obj.created_date|date:'d/m/Y'}}</td>
                                     <!-- Catgoria -->
-                                    <td class="text-center">{{obj.bill_category.name}}</td>
+                                    <td class="text-center text-capitalize">{{obj.bill_category.name}}</td>
                                     <!-- Tipo -->
-                                    <td class="text-center">{{obj.get_bill_type_display}}</td>
+                                    <td class="text-center text-capitalize"><span>{{obj.get_bill_type_display}}</span></td>
                                     <!-- Cobrador -->
-                                    <td class="text-center">{{obj.bill_charger.name}}</td>
+                                    <td class="text-center text-capitalize">{{obj.bill_charger.name}}</td>
                                     <!-- Parcela -->
                                     <td class="text-center">{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}-{% endif %}</td>
                                     <!-- Status -->
@@ -80,9 +80,9 @@
                                         <!-- Paga em -->
                                         <td class="text-center">{% if obj.payment_date is not none %}{{obj.payment_date|date:'d/m/Y'}}{%else%}-{%endif%}</td>
                                         <!-- Tipo pagamento -->
-                                        <td class="text-center">{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
+                                        <td class="text-center text-capitalize">{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
                                         <!-- Banco -->
-                                        <td class="text-center">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
+                                        <td class="text-center text-capitalize">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
                                     {% endif %}
                                     <!-- Valor -->
                                     <td class="text-center">{{obj.value}}</td>
@@ -156,7 +156,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" ><i class="material-icons text-success">attach_money</i></h5>
+                    <h5 class="modal-title" ><i class="material-icons text-success">attach_money</i> Formulário de pagamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
                 </div>
                 <div class="modal-body">

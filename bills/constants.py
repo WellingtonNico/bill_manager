@@ -1,6 +1,6 @@
 BILL_TYPES = (
-    ('INSTALLED','PARCELADA'),
-    ('UNIQUE_INSTALLMENT','PARCELA ÚNICA'),
+    ('INSTALLED','Parcelada'),
+    ('UNIQUE_INSTALLMENT','Parcela única'),
 )
 
 BILL_STATUSES = (
@@ -20,25 +20,25 @@ BILL_ORDERING_OPTIONS = (
 )
 
 BILL_PAYMENT_BANKS = (
-    ('BANCO_DO_BRASIL','BANCO DO BRASIL'),
-    ('BRADESCO','BRADESCO'),
-    ('CAIXA','CAIXA'),
-    ('ITAU','ITAÚ'),
-    ('ITI','ITI'),
-    ('MERCADO_PAGO','MERCADO PAGO'),
-    ('NUBANK','NUBANK'),
-    ('PAG_SEGURO','PAG SEGURO'),
-    ('PAY_PAL','PAY PAL'),
-    ('PIC_PAY','PIC PAY'),
-    ('SANTANDER','SANTANDER'),
-    ('OTHER','OUTRO'),
+    ('BANCO_DO_BRASIL','Banco do Brasil'),
+    ('BRADESCO','Bradesco'),
+    ('CAIXA','Caixa'),
+    ('ITAU','Itaú'),
+    ('ITI','Iti'),
+    ('MERCADO_PAGO','Mercado Pago'),
+    ('NUBANK','Nubank'),
+    ('PAG_SEGURO','Pag Seguro'),
+    ('PAY_PAL','Pay Pal'),
+    ('PIC_PAY','Pic Pay'),
+    ('SANTANDER','Santander'),
+    ('OTHER','Outro'),
 )
 
 BILL_PAYMENT_TYPES = (
-    ('MONEY','DINHEIRO'),
-    ('DEBIT','DÉBITO'),
-    ('CREDIT','CRÉDITO'),
-    ('PIX','PIX'),
-    ('ONLINE','ONLINE'),
-    ('TRANSFER','TRANSFERÊNCIA'),
+    ('MONEY','Dinheiro'),
+    ('DEBIT','Débito'),
+    ('CREDIT','Crédito'),
+    ('PIX','Pix'),
+    ('ONLINE','Online'),
+    ('TRANSFER','Transferência'),
 )
