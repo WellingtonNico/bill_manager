@@ -15,3 +15,7 @@ legend{
     color: #31977f !important;
     font-weight: bold; 
 }
+
+.btn-success{
+    background-color: #31977f !important;
+}
