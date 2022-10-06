@@ -170,14 +170,14 @@
     </div>
     <!-- fim do modal para pagamento de conta -->
     <!-- início do modal de filtros -->
-    <div class="modal fade" id="bill_filters"  aria-labelledby="bill_filters" data-keyboard="false" data-backdrop="static">
+    <div class="modal hide fade" id="bill_filters"  style="overflow:hidden !important;" aria-labelledby="bill_filters" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-xl">
             <div class="col-12 card bg-light modal-content p-3">
                 <form id="filter_form"  action="?" class="p-3 " method="get">
                     <div class="row justify-content-center">
                         <div class="col-4 mt-2">
                             <label >Categoria:</label>
-                            <select name="bill_category"  class="form-control">
+                            <select name="bill_category" id="bill_category"  class="form-control">
                                 <option value="">todas</option>
                                 {% for category in user.get_billcategories %}
                                     <option {% if category.id == request.GET.bill_category|to_int %}selected{%endif%} value="{{category.id}}">{{category.name}}</option>
@@ -204,7 +204,7 @@
                         </div>
                         <div class="col-4 mt-2">
                             <label >Cobrador:</label>
-                            <select name="bill_charger"  class="form-control">
+                            <select name="bill_charger" id="bill_charger"  class="form-control">
                                 <option value="">todos</option>
                                 {% for charger in user.get_billchargers %}
                                     <option {% if charger.id == request.GET.bill_charger|to_int %}selected{%endif%} value="{{charger.id}}">{{charger.name}}</option>
@@ -278,9 +278,32 @@
                 </div>
             </div>
         </div>
-    <!-- fim do modal para confimar deletar -->
+        <!-- fim do modal para confimar deletar -->
 
+        <script>
+            var navLinkIndex = 0
+        </script>
+{% endblock %}
+{% block script %}
     <script>
-        var navLinkIndex = 0
+
+        $(document).ready(()=>{
+            $('#bill_category').select2(
+                {
+                    language:"pt-BR",
+                    theme:'bootstrap-5',
+                    minimumInputLength:0,
+                    dropdownParent: $("#bill_filters")
+                }
+            )
+            $('#bill_charger').select2(
+                {
+                    language:"pt-BR",
+                    theme:'bootstrap-5',
+                    minimumInputLength:0,
+                    dropdownParent: $("#bill_filters")
+                }
+            )
+        });
     </script>
 {% endblock %}

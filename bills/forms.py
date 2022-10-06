@@ -1,10 +1,8 @@
 from datetime import datetime
-from django.forms import BooleanField, ModelForm, ValidationError, FileField, CheckboxInput
-from django.conf import settings
+from django.forms import BooleanField, ModelForm, ValidationError, CheckboxInput
 from .models import Bill
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML,Layout,Fieldset
-
 
 class BillModelForm(ModelForm):
     create_all_installments = BooleanField(

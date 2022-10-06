@@ -13,12 +13,17 @@ from users.models import User
 def get_payment_proof_path(instance,filename):
     return  f'payment_proofs/user_{instance.user.id}/payment_proof_{instance.id}.{filename.split(".")[-1]}'
 
+
+def get_today_default_value():
+    return datetime.now().date()
+
+
 class Bill(models.Model):
     user:User = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='Usuário')
     bill_type = models.CharField(choices=BILL_TYPES,verbose_name='Tipo',max_length=18)
     installment_total = models.IntegerField(null=True,blank=True,verbose_name='Quantidade de parcelas',validators=(only_greater_than_zero,))
     installment_sequence = models.IntegerField(null=True,blank=True,verbose_name='Número da parcela',validators=(only_greater_than_zero,))
-    created_date = models.DateField(verbose_name='Data de criação')
+    created_date = models.DateField(verbose_name='Data de criação',default=get_today_default_value)
     payment_date = models.DateField(verbose_name='Data de pagamento',null=True,blank=True,validators=(only_date_lower_or_equal_today,))
     payment_type = models.CharField(choices=BILL_PAYMENT_TYPES,verbose_name='Tipo de pagamento',max_length=18,blank=True,null=True)
     payment_proof_file = models.FileField(null=True,blank=True,verbose_name='Comprovante de pagamento',upload_to=get_payment_proof_path,validators=(payment_proof_file_size_validator,payment_proof_file_format_validator))
@@ -58,9 +63,9 @@ class Bill(models.Model):
             return self.status
         if self.expiration_date == datetime.now().date():
             return 'EXPIRES_TODAY'
-        if datetime.now().date() > self.expiration_date:
-            return 'EXPIRED'
         if self.expiration_date:
+            if datetime.now().date() > self.expiration_date:
+                return 'EXPIRED'
             if (self.expiration_date -timedelta(days=self.days_to_notify_before_expiration)) <= datetime.now().date() < self.expiration_date:
                 return 'WARNING'
             else:
