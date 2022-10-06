@@ -51,7 +51,7 @@ services:
       - bmrabbitmq
 
   bmworker1:
-    container_name: bmworker
+    container_name: bmworker1
     build: 
       context: .
     restart: always

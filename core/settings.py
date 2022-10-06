@@ -28,8 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = [config('ALLOWED_HOSTS').split(',')]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -57,6 +56,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -178,7 +178,7 @@ CELERY_RESULT_EXTENDED = True
 CELERY_REJECT_ON_WORKER_LOST = True
 CELERY_TASK_CREATE_MISSING_QUEUES=True
 CELERY_RESULT_EXPIRES = 60 * 60 * 24 * 4
-QUEUES = ('celery','fast_task','heavy_task')
+QUEUES = ('celery',)
 CELERY_X_MAX_PRIORITY = 5
 CELERY_TASK_QUEUES = [
     Queue(
@@ -197,6 +197,6 @@ PAYMENT_PROOFS_MAX_LENGTH_KB = float(config('PAYMENT_PROOFS_MAX_LENGTH_KB'))
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool)
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = f'Contas Fácil <{EMAIL_HOST_USER}>'

@@ -1,11 +1,10 @@
 import binascii
-from io import IOBase
 from celery import shared_task
 from django.core.mail import EmailMessage
 
 
-@shared_task(name='send_mail',limit=10)
-def send_mail(send_to:list, subject:str, text:str, files:dict=None):
+@shared_task(name='send_mail_task',limit=10,auto_retry_for=(Exception,),max_retries=5)
+def send_mail_task(send_to:list, subject:str, text:str, files:dict=None):
     """
     recebe uma lista de emails de destino, o conteúdo em texto somente
     e um dicionário contendo os arquivos, o dicionário deve ter como chave
