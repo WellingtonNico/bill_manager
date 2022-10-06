@@ -2,3 +2,5 @@
 venv
 *.env
 *.gz
+docker-compose.yaml
+docker-compose.yml
