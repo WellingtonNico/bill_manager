@@ -6,7 +6,7 @@
 {% block body %}
     <div class="row justify-content-center">
         <div class="col-12 col-md-4 col-lg-6" >
-            <form class="card bg-light shadow p-3" action="" enctype="multipart/form-data" method="POST">
+            <form class="card shadow p-3" action="" enctype="multipart/form-data" method="POST">
                 {% csrf_token %}
                 {% crispy form %}
             </form>

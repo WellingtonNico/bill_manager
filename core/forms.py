@@ -48,7 +48,7 @@ class SupportForm(forms.Form):
         label='Escreva seu requerimento aqui',
         min_length=20,max_length=400,
         widget=forms.Textarea(
-            attrs={'class':'form-control w-100','rows':3}
+            attrs={'rows':3}
         )
     )
     support_attachments = forms.FileField(
@@ -123,18 +123,49 @@ texto:
         )
 
 
+class AccessSolicitationForm(forms.Form):
+    helper = FormHelper()
+    helper.layout = Layout(
+        Fieldset(
+            'Contas Fácil',
+            'name','email','phone','message'
+        ),
+        HTML(
+            ''' 
+            <div class="col text-center">
+                <button type="submit" class="btn btn-success"><i class="material-icons">send</i> enviar</button>
+            </div>
+            '''
+        )
+    )
+
+    name = forms.CharField(max_length=255,label='Nome completo',required=True)
+    email = forms.EmailField(required=True,label='Email',max_length=255)
+    phone = forms.CharField(max_length=255,label='Telefone',required=False)
+    message = forms.CharField(
+        label='Se desejar pode estar enviando alguma mensagem',
+        min_length=0,max_length=400,required=False,
+        widget=forms.Textarea(
+            attrs={'rows':3}
+        )
+    )
+    def is_valid(self) -> bool:
+        if super().is_valid():
+            return True
+        return False
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
-            'Login',
+            'Contas Fácil',
             'username','password'
         ),
         HTML(
             '''
             {% if form.errors %}
-                <a href="{% url 'password_reset' %}" class="my-1">Esqueci minha senha</a>
+                <a class="fw-bold" style="text-decoration: none;color:#31977f;" href="{% url 'password_reset' %}">Esqueci minha senha</a>
             {% endif %}
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">

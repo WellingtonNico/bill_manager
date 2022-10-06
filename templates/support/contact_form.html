@@ -1,19 +1,22 @@
 {% extends 'very_base.html' %}
-{% load crispy_forms_tags %}
+{% load static crispy_forms_tags %}
 {% block title %}
-    Recuperação de senha
+    Contato
 {% endblock %}
 {% block very_body %}
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center" style="min-height: 100vh !important;" >
             <div class="col-12 col-md-6 col-lg-4" >
                 <div class="card shadow p-3">
-                    <h5 class="text-center">Email de recuperação enviado com sucesso!</h5>
-                    <div class="row justify-content-center mt-3">
+                    <div class="row justify-content-center">
                         <div class="col text-center">
-                            <a href="{% url 'login' %}" class="btn btn-success"><i class="material-icons">login</i> fazer login</a>
+                            <img height="200" width="200" class="img-fluid" src="{% static 'img/favicon.ico' %}" alt="">
                         </div>
                     </div>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {% crispy form %}
+                    </form>
                 </div>
             </div>
         </div>

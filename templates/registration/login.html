@@ -1,5 +1,5 @@
 {% extends 'very_base.html' %}
-{% load crispy_forms_tags %}
+{% load static crispy_forms_tags %}
 {% block title %}
     Login
 {% endblock %}
@@ -7,14 +7,19 @@
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center" style="min-height: 100vh !important;" >
             <div class="col-12 col-md-6 col-lg-4" >
-                <div class="card bg-light shadow p-3">
+                <div class="card shadow p-3">
+                    <div class="row justify-content-center">
+                        <div class="col text-center">
+                            <img height="200" width="200" class="img-fluid" src="{% static 'img/favicon.ico' %}" alt="">
+                        </div>
+                    </div>
                     <form action="" method="POST">
                         {% csrf_token %}
                         {% crispy form %}
                     </form>
                 </div>
                 <div class="text-end mt-2">
-                    <a class="fw-bold text-light" style="text-decoration: none;" href="#">quero ser um usuário</a>
+                    <a class="fw-bold" style="text-decoration: none;color:#31977f;" href="{% url 'access_solicitation' %}">quero ser um usuário</a>
                 </div>
             </div>
         </div>
