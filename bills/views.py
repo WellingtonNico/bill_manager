@@ -22,6 +22,11 @@ class BillListView(CustomListView):
     get_queryset_function_to_eval = 'self.request.user.get_bills'
     default_page_size = 13
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['create_bill_form'] = BillModelForm(custom_kwargs={'current_user':self.request.user})
+        return context
+
 
 class BillCreateView(CustomCreateView):
     model = Bill

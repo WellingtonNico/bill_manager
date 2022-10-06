@@ -2,10 +2,10 @@ from datetime import datetime
 from django.forms import BooleanField, ModelForm, ValidationError, CheckboxInput, CharField, TextInput
 from .models import Bill
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML,Layout,Fieldset
+from crispy_forms.layout import HTML,Layout,Fieldset,Div
 
 class BillModelForm(ModelForm):
-    value = CharField(min_length=0,max_length=255)
+    value = CharField(min_length=0,max_length=255,label='Valor')
     create_all_installments = BooleanField(
         label='Cadastrar parcelas subsequentes',required=False,
         widget=CheckboxInput(attrs={'class':'check-form-input'}),
@@ -30,21 +30,24 @@ class BillModelForm(ModelForm):
         self.fields['bill_category'].queryset = self.current_user.get_billcategories()
         self.fields['bill_charger'].queryset = self.current_user.get_billchargers()
         self.helper.layout =Layout(
-            Fieldset(
-                'Conta',
-                'status','bill_category','bill_charger','bill_type','installment_total',
-                'installment_sequence','value','note'
-            ) if self.instance.id else 
-            Fieldset(
-                'Conta',
-                'status','bill_category','bill_charger','bill_type','installment_total',
-                'installment_sequence','create_all_installments','value','note'
-            ),
-            HTML('<hr>'),
-            Fieldset(
-                'Datas',
-                'created_date','expiration_date','days_to_notify_before_expiration',
-            ),
+            Div('status','bill_category','bill_charger','bill_type','value',css_class='col-12 col-md-6') if self.instance.id else
+            Div('status','bill_category','bill_charger','bill_type','value','create_all_installments',css_class='col-12 col-md-6'),
+            Div('installment_total','installment_sequence','created_date','expiration_date','days_to_notify_before_expiration',css_class='col-12 col-md-6') ,
+            # Fieldset(
+            #     'Conta',
+            #     'status','bill_category','bill_charger','bill_type','installment_total',
+            #     'installment_sequence','value','note'
+            # ) if self.instance.id else 
+            # Fieldset(
+            #     'Conta',
+            #     'status','bill_category','bill_charger','bill_type','installment_total',
+            #     'installment_sequence','create_all_installments','value','note'
+            # ),
+            # HTML('<hr>'),
+            # Fieldset(
+            #     'Datas',
+            #     'created_date','expiration_date','days_to_notify_before_expiration',
+            # ),
             HTML(
                 '''
                 {% if form.instance.id and not form.payment_proof_file.errors %}

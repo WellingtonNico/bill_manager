@@ -250,7 +250,7 @@
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
                         <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                        <a href="{% url 'bill_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#create_bill_modal" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</button>
                     </div>
                 </form>
             </div>
@@ -259,30 +259,51 @@
     <!-- fim do modal de filtros -->
 
     <!-- início do modal de confirmação de estorno -->
-        <div class="modal fade" id="undo_payment_modal" tabindex="-1" aria-labelledby="undo_payment_modal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
-                    </div>
-                    <div class="modal-body">
-                        Tem certeza que deseja estornar o pagamento?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="material-icons">undo</i> cancelar</button>
-                        <form id="undo_payment_form" method="post" action="">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success"><i class="material-icons">done</i> estornar</button>
-                        </form>
-                    </div>
+    <div class="modal fade" id="undo_payment_modal" tabindex="-1" aria-labelledby="undo_payment_modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja estornar o pagamento?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="material-icons">undo</i> cancelar</button>
+                    <form id="undo_payment_form" method="post" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success"><i class="material-icons">done</i> estornar</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- fim do modal para confimar deletar -->
+    </div>
+    <!-- fim do modal para confimar estorno -->
 
-        <script>
-            var navLinkIndex = 0
-        </script>
+    <!-- início do modal de criação de conta -->
+    <div class="modal fade" id="create_bill_modal" tabindex="-1" aria-labelledby="create_bill_modal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" >Cadastro de Conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="payment_form" method="post" action="{% url 'bill_create' %}">
+                        <div class="row">
+                            {% crispy create_bill_form %}
+                            {% csrf_token %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- fim do modal para criar conta -->
+
+    <script>
+        var navLinkIndex = 0
+    </script>
 {% endblock %}
 {% block script %}
     <script>
@@ -305,6 +326,28 @@
                 }
             )
             $('#id_payment_date').mask('00/00/0000')
+            // campos do formulário de criação de conta
+            // campos do formulário de cria
+            $('#id_bill_category').select2(
+                {
+                    language:"pt-BR",
+                    theme:'bootstrap-5',
+                    minimumInputLength:0,
+                    dropdownParent: $("#create_bill_modal")
+                }
+            )
+            $('#id_bill_charger').select2(
+                {
+                    language:"pt-BR",
+                    theme:'bootstrap-5',
+                    minimumInputLength:0,
+                    dropdownParent: $("#create_bill_modal")
+                }
+            )
+            $('#id_expiration_date').mask('00/00/0000')
+            $('#id_created_date').mask('00/00/0000')
+            $('#id_value').mask('#.##0,00', {reverse: true})
+
         });
     </script>
 {% endblock %}
