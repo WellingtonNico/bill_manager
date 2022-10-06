@@ -46,27 +46,45 @@
                             <th class="text-center">Parcela</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Vence em</th>
-                            <th class="text-center">Prazo</th>
-                            <th class="text-center">Paga em</th>
-                            <th class="text-center">Tipo pagamento</th>
-                            <th class="text-center">Banco</th>
+                            {% if request.GET.status != 'PAID' %}
+                                <th class="text-center">Prazo</th>
+                            {% else %}
+                                <th class="text-center">Paga em</th>
+                                <th class="text-center">Tipo pagamento</th>
+                                <th class="text-center">Banco</th>
+                            {% endif %}
                             <th class="text-center">Valor R$</th>
                             <th class="text-end"><button data-toggle="tooltip" title="abrir filtros" type="button"  data-bs-toggle="modal" data-bs-target="#bill_filters" class="btn btn-sm btn-success mt-3"><i class="material-icons">filter_alt</i></button></th>
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
                                 <tr data-toggle="tooltip" title="{{ obj.note }}">
+                                    <!-- Criada em -->
                                     <td class="text-center">{{obj.created_date|date:'d/m/Y'}}</td>
+                                    <!-- Catgoria -->
                                     <td class="text-center">{{obj.bill_category.name}}</td>
+                                    <!-- Tipo -->
                                     <td class="text-center">{{obj.get_bill_type_display}}</td>
+                                    <!-- Cobrador -->
                                     <td class="text-center">{{obj.bill_charger.name}}</td>
+                                    <!-- Parcela -->
                                     <td class="text-center">{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}-{% endif %}</td>
+                                    <!-- Status -->
                                     <td class="text-center"><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
+                                    <!-- Vence em -->
                                     <td class="text-center">{% if obj.expiration_date is not none %}{{obj.expiration_date|date:'d/m/Y'}}{% else %}-{% endif %}</td>
-                                    <td class="text-center">{{obj.get_days_to_expiration_date}}</td>
-                                    <td class="text-center">{% if obj.payment_date is not none %}{{obj.payment_date|date:'d/m/Y'}}{%else%}-{%endif%}</td>
-                                    <td class="text-center">{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
-                                    <td class="text-center">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
+                                    {% if request.GET.status != 'PAID' %}
+                                        <!-- Prazo -->
+                                        <td class="text-center">{{obj.get_days_to_expiration_date}}</td>
+                                    {% else %}
+                                        <!-- Paga em -->
+                                        <td class="text-center">{% if obj.payment_date is not none %}{{obj.payment_date|date:'d/m/Y'}}{%else%}-{%endif%}</td>
+                                        <!-- Tipo pagamento -->
+                                        <td class="text-center">{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
+                                        <!-- Banco -->
+                                        <td class="text-center">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
+                                    {% endif %}
+                                    <!-- Valor -->
                                     <td class="text-center">{{obj.value}}</td>
                                     <td class="text-end m-0">
                                         {% if obj.status != 'PAID' %}
