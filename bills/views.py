@@ -1,5 +1,4 @@
-from io import BytesIO
-from traceback import format_exception_only
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView,DetailView
 from bills.constants import *
@@ -53,6 +52,26 @@ class BillPaymentProofDownloadView(DetailView):
             obj.payment_proof_file.file
         )
         return fileResponse
+
+
+class BillUndoPaymentUpdateView(CustomUpdateView):
+
+    def get_queryset(self):
+        return self.request.user.get_bills()
+
+    def post(self,request,*args,**kwargs):
+        obj:Bill = self.get_object()
+        obj.payment_date = None
+        obj.payment_type = None
+        obj.bank = None
+        obj.payment_proof_file = None
+        obj.status = 'UNDEFINED'
+        obj.save()
+        return redirect(reverse_lazy('bill_list'))
+
+    def get_sucess_message(self,cleaned_data):
+        return 'Estorno realizado com sucesso!'
+
 
 
 class BillPaymentUpdateView(CustomUpdateView):

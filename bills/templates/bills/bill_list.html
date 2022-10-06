@@ -64,7 +64,7 @@
                                     <td class="text-center"><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
                                     <td class="text-center">{% if obj.expiration_date is not none %}{{obj.expiration_date|date:'d/m/Y'}}{% else %}-{% endif %}</td>
                                     <td class="text-center">{{obj.get_days_to_expiration_date}}</td>
-                                    <td class="text-center">{{obj.payment_date|date:'d/m/Y'}}</td>
+                                    <td class="text-center">{% if obj.payment_date is not none %}{{obj.payment_date|date:'d/m/Y'}}{%else%}-{%endif%}</td>
                                     <td class="text-center">{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
                                     <td class="text-center">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
                                     <td class="text-center">{{obj.value}}</td>
@@ -76,7 +76,7 @@
                                             {% if obj.payment_proof_file.file is not none %}
                                                 <a data-toggle="tooltip" title="baixar comprovante de pagamento" class="btn btn-sm btn-outline-primary" download href="{% url 'bill_payment_proof_download' obj.id %}"><i class="material-icons">file_download</i></a>
                                             {% endif %}
-                                            <a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-dark"><i class="material-icons">undo</i></a>
+                                            <button onclick="document.querySelector('#undo_payment_form').setAttribute('action','{% url 'bill_undo_payment' obj.id %}')" data-bs-toggle="modal" data-bs-target="#undo_payment_modal" type="button" class="m-0 btn btn-sm btn-dark"><i class="material-icons">undo</i></button>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -239,6 +239,28 @@
         </div>
     </div>
     <!-- fim do modal de filtros -->
+
+    <!-- início do modal de confirmação de estorno -->
+        <div class="modal fade" id="undo_payment_modal" tabindex="-1" aria-labelledby="undo_payment_modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza que deseja estornar o pagamento?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="material-icons">undo</i> cancelar</button>
+                        <form id="undo_payment_form" method="post" action="">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success"><i class="material-icons">done</i> estornar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- fim do modal para confimar deletar -->
 
     <script>
         var navLinkIndex = 0
