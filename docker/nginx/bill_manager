@@ -1,0 +1,107 @@
+access_log off;
+
+map $sent_http_content_type $expires {
+    text/html                   off;
+    text/css                    30d;
+    application/javascript      30d;
+    image/png                    1y;
+    image/svg+xml                1y;
+    image/x-icon                 1y;
+    application/x-gzip           1y;
+    application/x-gtar           1y;
+}
+
+upstream gunicorn_bm{
+    server localhost:8000;
+    keepalive 32;
+}
+
+server {
+    proxy_http_version 1.1;
+    add_header   "Connection" "keep-alive";
+    #################################
+    ############ proxy ##############
+    #################################
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_ignore_headers  Vary  X-Accel-Buffering;
+    #################################
+    ############ cache ##############
+    #################################
+    open_file_cache max=1000 inactive=1d;
+    open_file_cache_valid 1d;
+    open_file_cache_min_uses 2;
+    open_file_cache_errors off;
+    proxy_cache_revalidate on;
+    tcp_nopush on;
+    sendfile on;
+    tcp_nodelay on;
+    keepalive_timeout 1h;
+    ##############################################################
+    ##################### configurações ssl ######################
+    ##############################################################
+    ssl_buffer_size 4k;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache builtin:1000 shared:SSL:10m;
+    ssl_ecdh_curve prime256v1:secp384r1;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+    ssl_session_timeout  1h;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains" always;
+    add_header X-Frame-Options SAMEORIGIN;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    large_client_header_buffers 4 8k;
+    client_body_buffer_size       16K;
+    client_header_buffer_size     1k;
+    client_max_body_size          100m;
+
+    location / {
+        expires off;
+        proxy_pass http://gunicorn_bm;
+        #proxy_redirect off;
+        #proxy_buffering off;
+    }
+
+    location /static/ {
+        # lembrar de alterar o diretório para o correto dos estáticos
+        root <raiz do projeto>;
+        expires 1d;
+        gzip_static on;
+        proxy_buffering off;
+        add_header Pragma private;
+        add_header Cache-Control private;
+        access_log off;
+        proxy_redirect off;
+    }
+
+
+    #####################################################
+    ########################  gzip ######################
+    #####################################################
+    gzip on;
+    gzip_disable "msie6";
+    gzip_comp_level 9;
+    gzip_min_length 100000;
+    gzip_buffers 8 4k;
+    gzip_proxied any;
+    gzip_vary on;
+    gzip_types
+        image/svg+xml
+        text/css
+        image/png
+        application/javascript
+        text/plain
+        application/json;
+
+    listen [::]:80 ipv6only=on;
+    listen 80;
+   
+}

@@ -26,9 +26,6 @@ class User(AbstractUser):
     def get_billchargers(self):
         return self.billcharger_set.all()
 
-    def get_full_payment_proofs_dir(self):
-        return settings.PAYMENT_PROOFS_DIR+f'/user_{self.id}/'
-
     def get_payment_proofs_dir(self):
         fullDir = self.get_full_payment_proofs_dir()
         if not os.path.exists(fullDir):

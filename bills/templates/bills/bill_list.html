@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load coretags static %}
+{% load coretags static crispy_forms_tags %}
 {% block title %}
     Contas - lista
 {% endblock %}
@@ -29,131 +29,56 @@
             background-color: rgb(87, 198, 77);
             color: white;
         }
+        th{
+            padding-top: 0 !important;
+        }
     </style>
     <div class="row justify-content-center">
         <div class="col-12 ">
-            <form id="filter_form" action="?" class="card bg-light shadow p-3" method="get">
-                <div class="row justify-content-center">
-                    <div class="col-4 mt-2">
-                        <label >Categoria:</label>
-                        <select name="bill_category"  class="form-control">
-                            <option value="">todas</option>
-                            {% for category in user.get_billcategories %}
-                                <option {% if category.id == request.GET.bill_category|to_int %}selected{%endif%} value="{{category.id}}">{{category.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Tipo:</label>
-                        <select name="bill_type" class="form-control">
-                            <option value="">todos</option>
-                            {% for key,value in BILL_TYPES %}
-                                <option {% if key == request.GET.bill_type %}selected{%endif%} value="{{key}}">{{value}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Status:</label>
-                        <select name="status" class="form-control">
-                            <option value="">todos</option>
-                            {% for key,value in BILL_STATUSES %}
-                                <option {% if key == request.GET.status %}selected{%endif%} value="{{key}}">{{value}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Cobrador:</label>
-                        <select name="bill_charger"  class="form-control">
-                            <option value="">todos</option>
-                            {% for charger in user.get_billchargers %}
-                                <option {% if charger.id == request.GET.bill_charger|to_int %}selected{%endif%} value="{{charger.id}}">{{charger.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Tipo de pagamento:</label>
-                        <select class="form-control" name="payment_type">
-                            <option value="">todos</option>
-                            {% for key,value in BILL_PAYMENT_TYPES %}
-                                <option {% if key == request.GET.payment_type %}selected{%endif%} value="{{key}}">{{value}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label>Criada em:</label>
-                        <input name="created_date" class="form-control" type="date" value="{{request.GET.created_date}}">
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label>Vence em:</label>
-                        <input name="expiration_date" class="form-control" type="date" value="{{request.GET.expiration_date}}">
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Banco:</label>
-                        <select class="form-control" name="bank">
-                            <option value="">todos</option>
-                            {% for key,value in BILL_PAYMENT_BANKS %}
-                                <option {% if key == request.GET.bank %}selected{%endif%} value="{{key}}">{{value}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Ordenar por:</label>
-                        <select class="form-control" name="ordering">
-                            <option value="">padrão</option>
-                            {% for key,value in BILL_ORDERING_OPTIONS %}
-                                <option {% if key == request.GET.ordering %}selected{%endif%} value="{{key}}">{{value}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-4 mt-2">
-                        <label >Tamanho da página:</label>
-                        <select class="form-control" name="page_size">
-                            {% for n in PAGE_SIZES %}
-                                <option {% if n == request.GET.page_size|to_int %}selected{%endif%} value="{{n}}">{{n}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
-                    <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                    <a href="{% url 'bill_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
-                </div>
-            </form>
-            <div class="card bg-light shadow mt-3 p-3">
+            <div class="card bg-light shadow pb-3 px-3">
                 <div style="overflow-x: auto;">
                     <table class="table table-striped table-hover">
                         <thead>
-                            <th>Criada em</th>
-                            <th>Categoria</th>
-                            <th>Tipo</th>
-                            <th>Cobrador</th>
-                            <th>Parcela</th>
-                            <th>Status</th>
-                            <th>Vence em</th>
-                            <th></th>
-                            <th>Paga em</th>
-                            <th>Tipo pagamento</th>
-                            <th>Banco</th>
-                            <th>Valor R$</th>
-                            <th></th>
+                            <th class="text-center">Criada em</th>
+                            <th class="text-center">Categoria</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Cobrador</th>
+                            <th class="text-center">Parcela</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Vence em</th>
+                            <th class="text-center">Prazo</th>
+                            <th class="text-center">Paga em</th>
+                            <th class="text-center">Tipo pagamento</th>
+                            <th class="text-center">Banco</th>
+                            <th class="text-center">Valor R$</th>
+                            <th class="text-end"><button data-toggle="tooltip" title="abrir filtros" type="button"  data-bs-toggle="modal" data-bs-target="#bill_filters" class="btn btn-sm btn-success mt-3"><i class="material-icons">filter_alt</i></button></th>
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
                                 <tr data-toggle="tooltip" title="{{ obj.note }}">
-                                    <td>{{obj.created_date|date:'d/m/Y'}}</td>
-                                    <td>{{obj.bill_category.name}}</td>
-                                    <td>{{obj.get_bill_type_display}}</td>
-                                    <td>{{obj.bill_charger.name}}</td>
-                                    <td>{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}-{% endif %}</td>
-                                    <td><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
-                                    <td>{% if obj.expiration_date is not none %}{{obj.expiration_date|date:'d/m/Y'}}{% else %}-{% endif %}</td>
-                                    <td>{{obj.get_days_to_expiration_date}}</td>
-                                    <td>{{obj.payment_date|date:'d/m/Y'}}</td>
-                                    <td>{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
-                                    <td>{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
-                                    <td>{{obj.value}}</td>
-                                    <td class="text-end m-0"><a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
+                                    <td class="text-center">{{obj.created_date|date:'d/m/Y'}}</td>
+                                    <td class="text-center">{{obj.bill_category.name}}</td>
+                                    <td class="text-center">{{obj.get_bill_type_display}}</td>
+                                    <td class="text-center">{{obj.bill_charger.name}}</td>
+                                    <td class="text-center">{% if obj.bill_type == 'INSTALLED' %}{{obj.installment_sequence}} de {{obj.installment_total}}{% else %}-{% endif %}</td>
+                                    <td class="text-center"><span class="badge bill_{{obj.status}}">{{obj.get_status_display}}</span></td>
+                                    <td class="text-center">{% if obj.expiration_date is not none %}{{obj.expiration_date|date:'d/m/Y'}}{% else %}-{% endif %}</td>
+                                    <td class="text-center">{{obj.get_days_to_expiration_date}}</td>
+                                    <td class="text-center">{{obj.payment_date|date:'d/m/Y'}}</td>
+                                    <td class="text-center">{% if obj.payment_type is not none %}{{obj.get_payment_type_display}}{% else %}-{% endif %}</td>
+                                    <td class="text-center">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
+                                    <td class="text-center">{{obj.value}}</td>
+                                    <td class="text-end m-0">
+                                        {% if obj.status != 'PAID' %}
+                                            <a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i></a>
+                                            <button onclick="document.querySelector('#payment_form').setAttribute('action','{% url 'bill_pay' obj.id %}')" class="m-0 btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#bill_payment_modal"><i class="material-icons">attach_money</i></button>
+                                        {% else %}
+                                            {% if obj.payment_proof_file.file is not none %}
+                                                <a data-toggle="tooltip" title="baixar comprovante de pagamento" class="btn btn-sm btn-outline-primary" download href="{% url 'bill_payment_proof_download' obj.id %}"><i class="material-icons">file_download</i></a>
+                                            {% endif %}
+                                            <a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-dark"><i class="material-icons">undo</i></a>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% empty %}
                                 <tr>
@@ -206,6 +131,123 @@
             </div>
         </div>
     </div>
+
+
+    <!-- início do modal para pagamento de conta -->
+    <div class="modal fade" id="bill_payment_modal" tabindex="-1" aria-labelledby="bill_payment_modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" ><i class="material-icons text-success">attach_money</i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="payment_form" method="post" action="" enctype="multipart/form-data">
+                        {% crispy PAYMENT_FORM %}
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- fim do modal para pagamento de conta -->
+    <!-- início do modal de filtros -->
+    <div class="modal fade" id="bill_filters"  aria-labelledby="bill_filters" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="col-12 card bg-light modal-content p-3">
+                <form id="filter_form"  action="?" class="p-3 " method="get">
+                    <div class="row justify-content-center">
+                        <div class="col-4 mt-2">
+                            <label >Categoria:</label>
+                            <select name="bill_category"  class="form-control">
+                                <option value="">todas</option>
+                                {% for category in user.get_billcategories %}
+                                    <option {% if category.id == request.GET.bill_category|to_int %}selected{%endif%} value="{{category.id}}">{{category.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Tipo:</label>
+                            <select name="bill_type" class="form-control">
+                                <option value="">todos</option>
+                                {% for key,value in BILL_TYPES %}
+                                    <option {% if key == request.GET.bill_type %}selected{%endif%} value="{{key}}">{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Status:</label>
+                            <select name="status" class="form-control">
+                                <option value="">todos</option>
+                                {% for key,value in BILL_STATUSES %}
+                                    <option {% if key == request.GET.status %}selected{%endif%} value="{{key}}">{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Cobrador:</label>
+                            <select name="bill_charger"  class="form-control">
+                                <option value="">todos</option>
+                                {% for charger in user.get_billchargers %}
+                                    <option {% if charger.id == request.GET.bill_charger|to_int %}selected{%endif%} value="{{charger.id}}">{{charger.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Tipo de pagamento:</label>
+                            <select class="form-control" name="payment_type">
+                                <option value="">todos</option>
+                                {% for key,value in BILL_PAYMENT_TYPES %}
+                                    <option {% if key == request.GET.payment_type %}selected{%endif%} value="{{key}}">{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label>Criada em:</label>
+                            <input name="created_date" class="form-control" type="date" value="{{request.GET.created_date}}">
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label>Vence em:</label>
+                            <input name="expiration_date" class="form-control" type="date" value="{{request.GET.expiration_date}}">
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Banco:</label>
+                            <select class="form-control" name="bank">
+                                <option value="">todos</option>
+                                {% for key,value in BILL_PAYMENT_BANKS %}
+                                    <option {% if key == request.GET.bank %}selected{%endif%} value="{{key}}">{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Ordenar por:</label>
+                            <select class="form-control" name="ordering">
+                                <option value="">padrão</option>
+                                {% for key,value in BILL_ORDERING_OPTIONS %}
+                                    <option {% if key == request.GET.ordering %}selected{%endif%} value="{{key}}">{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                            <label >Tamanho da página:</label>
+                            <select class="form-control" name="page_size">
+                                {% for n in PAGE_SIZES %}
+                                    <option {% if n == request.GET.page_size|to_int %}selected{%endif%} value="{{n}}">{{n}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
+                        <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
+                        <a href="{% url 'bill_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- fim do modal de filtros -->
+
     <script>
         var navLinkIndex = 0
     </script>

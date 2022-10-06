@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = [config('ALLOWED_HOSTS').split(',')]
 ALLOWED_HOSTS = []
 
 
@@ -186,10 +187,8 @@ CELERY_TASK_QUEUES = [
 ]
 
 
-# configurações dos comrovantes de pagamento
+# configurações dos comprovantes de pagamento
 PAYMENT_PROOFS_MAX_LENGTH_KB = float(config('PAYMENT_PROOFS_MAX_LENGTH_KB'))
-PAYMENT_PROOFS_DIR = config('PAYMENT_PROOFS_DIR')
-PAYMENT_PROOF_PREFIX_NAME = config('PAYMENT_PROOF_PREFIX_NAME')
 
 
 ###############################

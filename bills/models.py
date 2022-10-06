@@ -29,7 +29,7 @@ class Bill(models.Model):
     bill_charger:BillCharger = models.ForeignKey(BillCharger,on_delete=models.CASCADE,verbose_name='Cobrador')
     bill_category:BillCategory = models.ForeignKey(BillCategory,on_delete=models.CASCADE,verbose_name='Categoria')
     status = models.CharField(choices=BILL_STATUSES,default='UNDEFINED',max_length=13)
-    note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Nota')
+    note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Comentário')
     value = models.FloatField(verbose_name='Valor')
 
     # banco
@@ -42,7 +42,7 @@ class Bill(models.Model):
         ordering = (('-created_date',))
 
     def get_absolute_url(self):
-        return reverse_lazy('bill_update',kwargs={'pk':self.id})
+        return reverse_lazy('bill_list')
 
     def get_days_to_expiration_date(self):
         if self.status in ('TO_EXPIRE','WARNING'):

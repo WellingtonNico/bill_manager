@@ -2,8 +2,7 @@ from django.db.models.signals import pre_save, post_save, pre_delete
 from django.dispatch import receiver
 from django.forms import model_to_dict
 from .models import Bill
-from datetime import datetime,timedelta
-import os
+from datetime import timedelta
 
 
 @receiver(pre_save,sender=Bill,weak=False)
@@ -12,17 +11,23 @@ def bill_pre_save_signal_handler(sender:Bill,instance:Bill,*args,**kwargs):
     if instance.status in ('EXPIRED','EXPIRES_TODAY','TO_EXPIRE','WARNING') and instance.expiration_date:
         instance.expiration_notification_date = instance.expiration_date - timedelta(days=instance.days_to_notify_before_expiration)
 
+
 @receiver(post_save,sender=Bill,weak=False)
 def bill_post_save_signal_handler(sender:Bill,instance:Bill,created,*args,**kwargs):
-    if created and instance.bill_type == 'INSTALLED' and instance.installment_sequence == 1:
+    if created and instance.bill_type == 'INSTALLED' and hasattr(instance,'create_all_installments'):
         installmentBills = []
-        for n in range(1,instance.installment_total):
+        for n in range(instance.installment_sequence,instance.installment_total):
             installmentBill = Bill(
                 user=instance.user,
                 bill_charger=instance.bill_charger,
                 bill_category=instance.bill_category,
                 installment_sequence=n+1,
-                **model_to_dict(instance,exclude=('id','bill_category','bill_charger','user','installment_sequence'))
+                **model_to_dict(
+                    instance,exclude=(
+                        'id','bill_category','bill_charger','user',
+                        'installment_sequence',
+                    )
+                )
             )
             newExpirationDate = installmentBill.expiration_date + timedelta(days=30 * n)
             if newExpirationDate.month == installmentBill.expiration_date.month:
