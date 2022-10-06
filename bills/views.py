@@ -21,6 +21,7 @@ class BillListView(CustomListView):
     }
     default_ordering = '-created_date' 
     get_queryset_function_to_eval = 'self.request.user.get_bills'
+    default_page_size = 13
 
 
 class BillCreateView(CustomCreateView):

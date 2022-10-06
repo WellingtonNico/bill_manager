@@ -14,39 +14,7 @@ class BillModelForm(ModelForm):
     )
     instance:Bill
     helper = FormHelper()
-    helper.layout =Layout(
-        Fieldset(
-            'Conta',
-            'status','bill_category','bill_charger','bill_type','installment_total',
-            'installment_sequence','create_all_installments','value','note'
-        ),
-        HTML('<hr>'),
-        Fieldset(
-            'Datas',
-            'created_date','expiration_date','days_to_notify_before_expiration',
-        ),
-        HTML(
-            '''
-            {% if form.instance.id and not form.payment_proof_file.errors %}
-                {% if form.instance.payment_proof_file.file is not none %}
-                    <a download href="{% url 'bill_payment_proof_download' form.instance.id %}">Baixar comprovante</a>
-                {% endif %}
-            {% endif %}
-            <div class="row mt-3 justify-content-center">
-                <div class="col text-center">
-                    <button type="submit" class="btn btn-success"><i class="material-icons">save</i> salvar</button>
-                </div>
-                {% if form.instance.id %}
-                    <div class="col text-center">
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
-                            <i class="material-icons">delete</i> deletar
-                        </button>
-                    </div>
-                {% endif %}
-            </div>
-            '''
-        )
-    )
+    
 
     class Meta:
         model = Bill
@@ -62,6 +30,44 @@ class BillModelForm(ModelForm):
         super().__init__(*args,**kwargs)
         self.fields['bill_category'].queryset = self.current_user.get_billcategories()
         self.fields['bill_charger'].queryset = self.current_user.get_billchargers()
+        self.helper.layout =Layout(
+            Fieldset(
+                'Conta',
+                'status','bill_category','bill_charger','bill_type','installment_total',
+                'installment_sequence','value','note'
+            ) if self.instance.id else 
+            Fieldset(
+                'Conta',
+                'status','bill_category','bill_charger','bill_type','installment_total',
+                'installment_sequence','create_all_installments','value','note'
+            ),
+            HTML('<hr>'),
+            Fieldset(
+                'Datas',
+                'created_date','expiration_date','days_to_notify_before_expiration',
+            ),
+            HTML(
+                '''
+                {% if form.instance.id and not form.payment_proof_file.errors %}
+                    {% if form.instance.payment_proof_file.file is not none %}
+                        <a download href="{% url 'bill_payment_proof_download' form.instance.id %}">Baixar comprovante</a>
+                    {% endif %}
+                {% endif %}
+                <div class="row mt-3 justify-content-center">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-success"><i class="material-icons">save</i> salvar</button>
+                    </div>
+                    {% if form.instance.id %}
+                        <div class="col text-center">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
+                                <i class="material-icons">delete</i> deletar
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                '''
+            )
+        )
     
     def clean_installment_total(self):
         billType = self.cleaned_data['bill_type']
@@ -76,7 +82,7 @@ class BillModelForm(ModelForm):
             return None
 
     def clean_create_all_installments(self):
-        create_all_installments = self.cleaned_data['create_all_installments']
+        create_all_installments = self.cleaned_data.get('create_all_installments',None)
         if create_all_installments == True:
             self.instance.create_all_installments = True
 
