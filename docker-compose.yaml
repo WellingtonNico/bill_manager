@@ -22,11 +22,10 @@ services:
     volumes:
       - bm_postgres_data:/var/lib/postgresql/data/
       - /etc/bill_manager/docker/postgres/backups/:/backups/
-      - /etc/bill_manager/docker/postgres/configs/postgresql.conf:/etc/postgres/config/postgresql.conf
       - bm_postgres_logs:/var/log/postgresql
     env_file:
       - ./.env
-    command: postgres -c config_file=/etc/postgres/config/postgresql.conf -c logging_collector=on -c log_destination=stderr
+    command: postgres -c logging_collector=on -c log_destination=stderr
     ports:
       - 5433:5432
 

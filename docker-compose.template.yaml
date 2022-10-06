@@ -19,13 +19,12 @@ services:
     restart: always
     image: postgres:13.8-alpine3.16
     volumes:
-      - /etc/bill_manager/docker/postgres/configs/postgresql.conf:/etc/postgres/config/postgresql.conf
       - /etc/bill_manager/docker/postgres/backups/:/backups/
       - bm_postgres_data:/var/lib/postgresql/data/
       - bm_postgres_logs:/var/log/postgresql
     env_file:
       - ./.env
-    command: postgres -c config_file=/etc/postgres/config/postgresql.conf -c logging_collector=on -c log_destination=stderr
+    command: postgres -c logging_collector=on -c log_destination=stderr
 
   bmweb1:
     # o nome deste container não pode se alterado sem que também seja alterado o crontab
