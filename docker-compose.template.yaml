@@ -7,7 +7,7 @@ services:
     restart: always
     image: rabbitmq:3.9.22-management-alpine
     env_file:
-      - ./docker.env
+      - ./.env
     ports:
       - 15672:15672
     volumes:
@@ -24,7 +24,7 @@ services:
       - /etc/bill_manager/docker/postgres/configs/postgresql.conf:/etc/postgres/config/postgresql.conf
       - bm_postgres_logs:/var/log/postgresql
     env_file:
-      - ./docker.env
+      - ./.env
     command: postgres -c config_file=/etc/postgres/config/postgresql.conf -c logging_collector=on -c log_destination=stderr
 
   bmweb1:
@@ -44,7 +44,7 @@ services:
       core.wsgi:application
       --bind 0.0.0.0:8000"
     env_file:
-      - ./docker.env
+      - ./.env
     depends_on:
       - bmdb
       - bmrabbitmq
@@ -67,7 +67,7 @@ services:
       -l info 
       -n bmworker1@%h "
     env_file:
-      - ./docker.env
+      - ./.env
     depends_on:
       - bmweb1
       - bmdb

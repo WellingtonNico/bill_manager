@@ -1,7 +1,3 @@
 formulário de suporte
 formulário de novo contato
 tela de relatório e modelos de relatório
-
-
-colocar botão de download de comprovante
-nova view com processamento de formulário para pagamento
