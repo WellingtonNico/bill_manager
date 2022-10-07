@@ -5,10 +5,40 @@
 {% endblock %}
 {% block body %}
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-          
+        {% if not user.has_billrelatory %}
+            <div class="text-center">
+                <span>Você ainda não possui um relatório</span>
+                <div class="row mt-3">
+                    <div class="col">
+                        <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn btn-primary"><i class="material-icons">add</i> criar relatório</button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- início do modal de criar relatório -->
+    <div class="modal text-center fade" id="billrelatory_form" tabindex="-1" aria-labelledby="billrelatory_form" aria-hidden="true">
+        <div class="row justify-content-center">
+            <div class="col text-center col-12 col-sm-4 col-md-3 col-lg-2">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" >Cadastro de Relatório</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="{% if not user.has_billrelatory %}{% url 'billrelatory_create' %}{% else %}{% url 'billrelatory_update' user.billrelatory.id %}{%endif%}">
+                                {% crispy form %}
+                                {% csrf_token %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <!-- fim do modal de criar relatório -->
 
     <script>
         var navLinkIndex = 3

@@ -19,7 +19,6 @@ class BillRelatory(models.Model):
     end_year = models.IntegerField(verbose_name='Ano final')
     start_month = models.IntegerField(verbose_name='Mês inicial',choices=MONTHS_CHOICES)
     end_month = models.IntegerField(verbose_name='Mês final',choices=MONTHS_CHOICES)
-    created_date = models.DateTimeField()
     updated_date = models.DateTimeField(auto_now=True)
     data = models.JSONField(default=dict,blank=True,null=True)
     status = models.CharField(verbose_name='Status',max_length=12,choices=BILL_RELATORY_STATUSES,default='NEW')
@@ -29,17 +28,23 @@ class BillRelatory(models.Model):
         verbose_name_plural = 'Relatórios de Contas'
 
     def process(self):
-        data = {}
-        for month,year in get_month_periods(self.start_month,self.start_year,self.end_month,self.end_year):
-            queryset = self.user.get_bills().filter(created_date__year=year,created_date__month=month)
-            data[f"{MONTHS[month]} - {year}"] = queryset.build_relatory()
-        self.status = 'COMPLETED'
+        self.data = {}
+        try:
+            for month,year in get_month_periods(self.start_month,self.start_year,self.end_month,self.end_year):
+                queryset = self.user.get_bills().filter(created_date__year=year,created_date__month=month)
+                self.data[f"{MONTHS[month]} - {year}"] = queryset.build_relatory()
+            self.status = 'COMPLETED'
+        except:
+            self.status = 'ERROR'
         self.save()
 
     def enqueue(self):
         app.signature('process_bill_relatory').apply_async(args=(self.id,))
         self.status = 'QUEUED'
         self.save()
+
+    def is_empty(self) -> bool:
+        return self.data == {}
 
     
 

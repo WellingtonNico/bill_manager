@@ -33,6 +33,12 @@ class User(AbstractUser):
             path.mkdir(parents=True,exist_ok=True)
         return fullDir
 
+    def has_billrelatory(self):
+        try:
+            return self.billrelatory
+        except:
+            return False
+
     def delete_payment_proofs_folder(self):
         shutil.rmtree(self.get_full_payment_proofs_dir())
 

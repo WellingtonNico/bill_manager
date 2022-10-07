@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Relatório de Contas - formulário
+{% endblock %}
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+            <form method="POST" class="card shadow p-3">
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
+    <script>
+        var navLinkIndex = 3
+    </script>
+{% endblock %}

@@ -17,9 +17,12 @@ class BillQueryset(QuerySet):
         data = {}
         for status in ('EXPIRED','EXPIRES_TODAY','WARNING','TO_EXPIRE'):
             querySet = self.filter(status=status)
+            valueSum = querySet.aggregate(Sum('value'))['value__sum']
+            if not valueSum:
+                valueSum = 0
             data[status] = {
                 'count':querySet.count(),
-                'value_sum':float(querySet.aggregate(Sum('value'))['value_sum'])
+                'value_sum':round(valueSum,2)
             }
         return data
 

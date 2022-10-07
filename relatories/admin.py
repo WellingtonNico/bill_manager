@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from relatories.models import BillRelatory
+
+admin.site.register(BillRelatory)
