@@ -6,14 +6,12 @@ from django.urls import reverse_lazy
 
 
 class BillCategoryListView(CustomListView):
-    extra_context = {
-        'PAGE_SIZES':[5,10,20,30,40,50]
-    }
     get_queryset_function_to_eval = 'self.request.user.get_billcategories'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['bill_category_create_form'] = BillCategoryModelForm(custom_kwargs={'current_user':self.request.user})
+        context['PAGE_SIZES']=[5,10,20,30,40,50]
         return context
 
 

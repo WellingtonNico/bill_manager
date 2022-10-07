@@ -5,9 +5,6 @@ from django.urls import reverse_lazy
 
 
 class BillChargerListView(CustomListView):
-    extra_context = {
-        'PAGE_SIZES':[5,10,20,30,40,50]
-    }
 
     def get_queryset(self):
         return self.request.user.get_billchargers().filter(**self.build_filters_dict())
@@ -15,6 +12,7 @@ class BillChargerListView(CustomListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['bill_charger_create_form'] = BillChargerModelForm(custom_kwargs={'current_user':self.request.user})
+        context['PAGE_SIZES']=[5,10,20,30,40,50]
         return context
 
 

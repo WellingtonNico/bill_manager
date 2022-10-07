@@ -9,15 +9,6 @@ from django.views.generic import DeleteView,DetailView
 
 
 class BillListView(CustomListView):
-    extra_context = {
-        'BILL_TYPES':BILL_TYPES,
-        'BILL_STATUSES':BILL_STATUSES,
-        'BILL_ORDERING_OPTIONS':BILL_ORDERING_OPTIONS,
-        'BILL_PAYMENT_TYPES':BILL_PAYMENT_TYPES,
-        'BILL_PAYMENT_BANKS':BILL_PAYMENT_BANKS,
-        'PAGE_SIZES':[5,10,20,30,40,50],
-        'PAYMENT_FORM':BillPaymentForm()
-    }
     default_ordering = '-created_date' 
     get_queryset_function_to_eval = 'self.request.user.get_bills'
     default_page_size = 13
@@ -25,6 +16,13 @@ class BillListView(CustomListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['bill_create_form'] = BillModelForm(custom_kwargs={'current_user':self.request.user})
+        context['BILL_TYPES']=BILL_TYPES
+        context['BILL_STATUSES']=BILL_STATUSES
+        context['BILL_ORDERING_OPTIONS']=BILL_ORDERING_OPTIONS
+        context['BILL_PAYMENT_TYPES']=BILL_PAYMENT_TYPES
+        context['BILL_PAYMENT_BANKS']=BILL_PAYMENT_BANKS
+        context['PAGE_SIZES']=[5,10,20,30,40,50]
+        context['PAYMENT_FORM']=BillPaymentForm()
         return context
 
 
