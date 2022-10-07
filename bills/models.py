@@ -50,7 +50,7 @@ class Bill(models.Model):
         return reverse_lazy('bill_list')
 
     def get_days_to_expiration_date(self):
-        if self.status in ('TO_EXPIRE','WARNING'):
+        if self.status in ('TO_EXPIRE','WARNING','EXPIRED'):
             difference = (self.expiration_date - datetime.now().date()).days
             if abs(difference) == 1:
                 return f'{difference} dia'
