@@ -1,20 +1,14 @@
 from datetime import datetime
-from django.forms import BooleanField, ModelForm, ValidationError, CheckboxInput, CharField, TextInput
+from django.forms import BooleanField, FileInput, ModelForm, ValidationError, CheckboxInput, CharField, TextInput
 from .models import Bill
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML,Layout,Fieldset,Div
 
 class BillModelForm(ModelForm):
     value = CharField(min_length=0,max_length=255,label='Valor')
-    create_all_installments = BooleanField(
-        label='Cadastrar parcelas subsequentes',required=False,
-        widget=CheckboxInput(attrs={'class':'check-form-input'}),
-        help_text='Ao habilitar, serão cadastradas as demais parcelas, começando do número de parcela deste cadastro - válido somente ao criar cadastro'
-    )
     instance:Bill
     helper = FormHelper()
     
-
     class Meta:
         model = Bill
         fields = (
@@ -121,6 +115,9 @@ class BillPaymentForm(ModelForm):
         self.fields['payment_date'].initial = datetime.now().date()
         self.fields['payment_type'].required = True
         self.fields['bank'].required = True
+        self.fields['payment_proof_file'].widget.attrs = {
+            'accept':'application/pdf,image/*'
+        }
 
     def clean_payment_date(self):
         payment_date = self.cleaned_data['payment_date']

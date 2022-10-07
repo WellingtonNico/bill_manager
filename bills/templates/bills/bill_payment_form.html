@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Contas - pagamento
+{% endblock %}
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col col-12 col-md-6 col-lg-4 ">
+            <form method="POST" enctype="multipart/form-data" class="card shadow p-3">
+                <div class="row">
+                    {% csrf_token %}
+                    {% crispy form %}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        var navLinkIndex = 0
+        $(document).ready(()=>{
+            $('#id_payment_date').mask('00/00/0000')
+        })
+    </script>
+{% endblock %}

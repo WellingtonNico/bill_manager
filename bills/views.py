@@ -77,6 +77,7 @@ class BillUndoPaymentUpdateView(CustomUpdateView):
 
 class BillPaymentUpdateView(CustomUpdateView):
     success_url = reverse_lazy('bill_list')
+    template_name_suffix = '_payment_form'
     form_class = BillPaymentForm
 
     def get_queryset(self):
