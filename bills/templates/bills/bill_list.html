@@ -89,7 +89,7 @@
                                         <td class="text-center text-capitalize">{% if obj.bank is not none %}{{obj.get_bank_display}}{% else %}-{% endif %}</td>
                                     {% endif %}
                                     <!-- Valor -->
-                                    <td class="text-center">{{obj.value|to_currency}}</td>
+                                    <td class="text-center">{% if obj.value != 0%}{{obj.value|to_currency}}{% else %}-{% endif %}</td>
                                     <td class="text-end m-0">
                                         {% if obj.status != 'PAID' %}
                                             <a href="{% url 'bill_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i></a>
