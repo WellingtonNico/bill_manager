@@ -15,6 +15,11 @@ class BillRelatoryForm(ModelForm):
             'start_year','start_month','end_year','end_month'
         )
 
+    def __init__(self,*args,**kwargs):
+        a = kwargs.pop('custom_kwargs',{})
+        self.current_user = a.pop('current_user',None)
+        super().__init__(*args,**kwargs)
+
     def clean(self):
         start_year = self.cleaned_data.get('start_year',None)
         final_year = self.cleaned_data.get('final_year',None)
@@ -52,6 +57,10 @@ class BillRelatoryForm(ModelForm):
         if not len(str(value)) == 4:
             raise ValidationError('O ano deve ter no mínimo 4 dígitos')
         return value
+    
+    def is_valid(self) -> bool:
+        self.instance.user = self.current_user
+        return super().is_valid()
 
     def save(self,commit=True):
         obj:BillRelatory = super().save(commit=commit)

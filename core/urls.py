@@ -22,6 +22,7 @@ urlpatterns = [
     path('bills/',include('bills.urls')),
     path('bill_categories/',include('bill_categories.urls')),
     path('bill_chargers/',include('bill_chargers.urls')),
+    path('relatories/',include('relatories.urls')),
     path('',RedirectView.as_view(url=reverse_lazy('bill_list'))),
 
 

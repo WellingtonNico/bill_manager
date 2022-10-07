@@ -6,6 +6,7 @@ from dateutil.rrule import rrule, MONTHLY
 from datetime import datetime
 from core.celery import app
 
+
 def get_month_periods(start_month, start_year, end_month, end_year):
     start = datetime(start_year, start_month, 1)
     end = datetime(end_year, end_month, 1)
