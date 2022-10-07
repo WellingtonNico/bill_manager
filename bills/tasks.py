@@ -46,8 +46,8 @@ Segue abaixo o seu relatório diário de contas:
     if notifyTodayBills:
         emailContent += f"{messagePrefix(notifyTodayBills)} {'entraram' if notifyTodayBills > 1 else 'entrou'} em estatus de ATENÇÃO hoje\n"
 
-    if notifyTodayBills:
-        emailContent += f"{messagePrefix(notifyTodayBills)} {'estão' if notifyTodayBills > 1 else 'está'} em estatus de ATENÇÃO\n"
+    if totalOnWarning:
+        emailContent += f"{messagePrefix(totalOnWarning)} {'estão' if totalOnWarning > 1 else 'está'} em estatus de ATENÇÃO\n"
 
     return emailContent
 
