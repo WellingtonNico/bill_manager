@@ -1,6 +1,7 @@
 from django import template
-from django.utils.safestring import mark_safe
+import locale
 
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 register = template.Library()
 
@@ -17,4 +18,10 @@ def build_params(request):
             newUrl += f'{key}={value}&'
 
     return newUrl
+
+
+@register.filter(name='to_currency')
+def to_currency(value):
+    return locale.currency(value,grouping=True)
+
 

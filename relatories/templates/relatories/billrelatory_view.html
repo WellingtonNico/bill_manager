@@ -68,16 +68,16 @@
                                         </div>
                                         <div class="col-5 text-end">
                                             <p>
-                                                <span>R$ {{value.EXPIRED.value_sum}}</span>
+                                                <span>{{value.EXPIRED.value_sum|to_currency}}</span>
                                             </p>
                                             <p>
-                                                <span>R$ {{value.EXPIRES_TODAY.value_sum}}</span>
+                                                <span>{{value.EXPIRES_TODAY.value_sum|to_currency}}</span>
                                             </p>
                                             <p>
-                                                <span>R$ {{value.WARNING.value_sum}}</span>
+                                                <span>{{value.WARNING.value_sum|to_currency}}</span>
                                             </p>
                                             <p>
-                                                <span>R$ {{value.TO_EXPIRE.value_sum}}</span>
+                                                <span>{{value.TO_EXPIRE.value_sum|to_currency}}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                                             {{value.TOTAL.count}}
                                         </div>
                                         <div class="col-5">
-                                            R$ {{value.TOTAL.value_sum}}
+                                            R$ {{value.TOTAL.value_sum|to_currency}}
                                         </div>
                                     </div>
                                 </li>
@@ -106,11 +106,10 @@
     <!-- início do modal de criar relatório -->
     <div class="modal text-center fade" id="billrelatory_form" tabindex="-1" aria-labelledby="billrelatory_form" aria-hidden="true">
         <div class="row justify-content-center">
-            <div class="col text-center col-12 col-sm-4 col-md-3 col-lg-2">
+            <div class="col text-center col-12 col-sm-8 col-md-4">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
                         </div>
                         <div class="modal-body">
