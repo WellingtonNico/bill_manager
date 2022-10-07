@@ -168,7 +168,7 @@ Email: {self.cleaned_data['email']}'''
             emailContent += f'\n\nTelefone: {phone}'
         message = self.cleaned_data.get('message',None)
         if message:
-            emailContent += f'\n\nMensagem: {message}'
+            emailContent += f'\n\nMensagem: \n{message}'
         send_mail_task.apply_async(
             args=(
                 [settings.OWNER_EMAIL_RECEIVER],
