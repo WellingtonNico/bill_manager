@@ -14,7 +14,7 @@ def bill_pre_save_signal_handler(sender:Bill,instance:Bill,*args,**kwargs):
 
 @receiver(post_save,sender=Bill,weak=False)
 def bill_post_save_signal_handler(sender:Bill,instance:Bill,created,*args,**kwargs):
-    if created and instance.bill_type == 'INSTALLED' and hasattr(instance,'create_all_installments'):
+    if created and instance.bill_type == 'INSTALLED':
         installmentBills = []
         for n in range(instance.installment_sequence,instance.installment_total):
             installmentBill = Bill(

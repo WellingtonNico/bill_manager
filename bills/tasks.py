@@ -22,6 +22,9 @@ def build_email_relatory(userId):
         user__id=userId,expiration_date=datetime.now().date() - timedelta(days=1),
         status__in=statusesToSearch
     ).update(status='EXPIRED')
+    totalOnWarning = Bill.objects.filter(
+        user_id=userId,status='WARNING'
+    ).count()
 
     emailContent = f'''
 
@@ -32,7 +35,7 @@ Segue abaixo o seu relatório diário de contas:
 
     messagePrefix = lambda x:f"\n * Você tem {x} {'contas' if x > 1 else 'conta'} que"
 
-    if not any((expiresTodayBills,expiredBills,notifyTodayBills)):
+    if not any((expiresTodayBills,expiredBills,notifyTodayBills,totalOnWarning)):
         return
     if expiresTodayBills:
         emailContent += f"{messagePrefix(expiresTodayBills)} {'vencem' if expiresTodayBills > 1 else 'vence'} hoje\n"
@@ -41,7 +44,10 @@ Segue abaixo o seu relatório diário de contas:
         emailContent += f"{messagePrefix(expiredBills)} {'venceram' if expiredBills > 1 else 'venceu'} ontem\n"
 
     if notifyTodayBills:
-        emailContent += f"{messagePrefix(notifyTodayBills)} {'entraram' if notifyTodayBills > 1 else 'entrou'} em estatus de ATENÇÃO\n"
+        emailContent += f"{messagePrefix(notifyTodayBills)} {'entraram' if notifyTodayBills > 1 else 'entrou'} em estatus de ATENÇÃO hoje\n"
+
+    if notifyTodayBills:
+        emailContent += f"{messagePrefix(notifyTodayBills)} {'estão' if notifyTodayBills > 1 else 'está'} em estatus de ATENÇÃO\n"
 
     return emailContent
 

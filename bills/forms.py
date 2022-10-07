@@ -18,9 +18,9 @@ class BillModelForm(ModelForm):
     class Meta:
         model = Bill
         fields = (
-            'bill_category','bill_type','installment_total','installment_sequence',
-            'bill_charger','created_date','expiration_date',
-            'days_to_notify_before_expiration','status','value'
+            'bill_category','bill_type','installment_total',
+            'bill_charger','expiration_date',
+            'value'
         )
 
     def __init__(self, *args,**kwargs):
@@ -30,24 +30,9 @@ class BillModelForm(ModelForm):
         self.fields['bill_category'].queryset = self.current_user.get_billcategories()
         self.fields['bill_charger'].queryset = self.current_user.get_billchargers()
         self.helper.layout =Layout(
-            Div('status','bill_category','bill_charger','bill_type','value',css_class='col-12 col-md-6') if self.instance.id else
-            Div('status','bill_category','bill_charger','bill_type','value','create_all_installments',css_class='col-12 col-md-6'),
-            Div('installment_total','installment_sequence','created_date','expiration_date','days_to_notify_before_expiration',css_class='col-12 col-md-6') ,
-            # Fieldset(
-            #     'Conta',
-            #     'status','bill_category','bill_charger','bill_type','installment_total',
-            #     'installment_sequence','value','note'
-            # ) if self.instance.id else 
-            # Fieldset(
-            #     'Conta',
-            #     'status','bill_category','bill_charger','bill_type','installment_total',
-            #     'installment_sequence','create_all_installments','value','note'
-            # ),
-            # HTML('<hr>'),
-            # Fieldset(
-            #     'Datas',
-            #     'created_date','expiration_date','days_to_notify_before_expiration',
-            # ),
+            Div('bill_category','bill_charger',css_class='col-12 col-md-4'),
+            Div('bill_type','expiration_date',css_class='col-12 col-md-4'),
+            Div('installment_total','value',css_class='col-12 col-md-4'),
             HTML(
                 '''
                 {% if form.instance.id and not form.payment_proof_file.errors %}
@@ -85,34 +70,12 @@ class BillModelForm(ModelForm):
         else:
             return None
 
-    def clean_create_all_installments(self):
-        create_all_installments = self.cleaned_data.get('create_all_installments',None)
-        if create_all_installments == True:
-            self.instance.create_all_installments = True
-
-    def clean_installment_sequence(self):
-        billType = self.cleaned_data['bill_type']
-        if billType == 'INSTALLED':
-            installmentSequence = self.cleaned_data['installment_sequence']
-            installmentTotal = self.cleaned_data.get('installment_total',None)
-            if not installmentSequence:
-                raise ValidationError('Este campo precisa ser preenchido quando a conta for parcelada')
-            if installmentTotal != None:
-                if installmentSequence > installmentTotal:
-                    raise ValidationError('O número da parcela não pode ser superior ao número total de parcelas')
-            else:
-                raise ValidationError('Não foi possível validar este campo pois o campo de total de parcelas possui erro')
-            return installmentSequence
-        else:
-            return None
-
     def clean_expiration_date(self):
-        created_date = self.cleaned_data['created_date']
         expiration_date = self.cleaned_data['expiration_date']
         bill_type = self.cleaned_data['bill_type']
         if expiration_date:
-            if created_date > expiration_date:
-                raise ValidationError('A data de vencimento não pode ser inferior a data de criação')
+            if expiration_date < datetime.now().date():
+                raise ValidationError('A data de vencimento não pode ser inferior a data atual')
         if bill_type == 'INSTALLED' and not expiration_date:
             raise ValidationError('A data de vencimento é obrigatória quando o tipo da conta for PARCELADA')
         return expiration_date
@@ -168,5 +131,6 @@ class BillPaymentForm(ModelForm):
         return payment_date
 
     def is_valid(self) -> bool:
+        
         self.instance.status = 'PAID'
         return super().is_valid()

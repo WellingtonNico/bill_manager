@@ -19,3 +19,7 @@ legend{
 .btn-success{
     background-color: #31977f !important;
 }
+
+td{
+    vertical-align : middle !important;
+}
