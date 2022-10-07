@@ -112,44 +112,7 @@
                         </tbody>
                     </table>
                 </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        {% if page_obj.number != 1 %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page=1&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Primeira">
-                                    <span aria-hidden="true"><<</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if page_obj.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{page_obj.previous_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Anterior">
-                                    <span aria-hidden="true"><</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></li>
-                        {% if page_obj.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{page_obj.next_page_number}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Próxima">
-                                    <span aria-hidden="true">></span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if page_obj.number != page_obj.paginator.num_pages %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&bill_category={{request.GET.bill_category}}&bill_type={{request.GET.bill_type}}&status={{request.GET.status}}&value={{request.GET.value}}&page_size={{request.GET.page_size}}&ordering={{request.GET.ordering}}&created_date={{request.GET.created_date}}&expiration_date={{request.GET.expiration_date}}&payment_type={{request.GET.payment_type}}&bank={{request.GET.bank}}" aria-label="Última">
-                                    <span aria-hidden="true">>></span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li class="page-item disabled">
-                            <a class="page-link " href="#" aria-label="Última">
-                                <span aria-hidden="true">total: {{page_obj.paginator.count}}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                {% include "pagination/pagination_nav.html"%}
             </div>
         </div>
     </div>

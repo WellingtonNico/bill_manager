@@ -1,0 +1,39 @@
+{% load coretags %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.number != 1 %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1&{{request|build_params}}" aria-label="Primeira">
+                    <span aria-hidden="true"><<</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.previous_page_number}}&{{request|build_params}}" aria-label="Anterior">
+                    <span aria-hidden="true"><</span>
+                </a>
+            </li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="#">{{page_obj.number}}</a></li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.next_page_number}}&{{request|build_params}}" aria-label="Próxima">
+                    <span aria-hidden="true">></span>
+                </a>
+            </li>
+        {% endif %}
+        {% if page_obj.number != page_obj.paginator.num_pages %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.paginator.num_pages}}&{{request|build_params}}" aria-label="Última">
+                    <span aria-hidden="true">>></span>
+                </a>
+            </li>
+        {% endif %}
+        <li class="page-item disabled">
+            <a class="page-link " href="#" aria-label="Última">
+                <span aria-hidden="true">total: {{page_obj.paginator.count}}</span>
+            </a>
+        </li>
+    </ul>
+</nav>
