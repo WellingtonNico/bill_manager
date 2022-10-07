@@ -31,6 +31,7 @@ BILL_PAYMENT_BANKS = (
     ('PAY_PAL','Pay Pal'),
     ('PIC_PAY','Pic Pay'),
     ('SANTANDER','Santander'),
+    ('BANCO_CORA','Banco Cora'),
     ('OTHER','Outro'),
 )
 
