@@ -24,8 +24,8 @@ class BillCharger(models.Model):
         return reverse_lazy('billcharger_update',kwargs={'pk':self.id})
 
     def validate_unique(self, exclude):
-        querySet = BillCharger.objects.filter(user=self.user,name=self.name)
+        querySet = BillCharger.objects.filter(user=self.user,name__iexact=self.name)
         if querySet.exists():
             if querySet.first().id != self.id:
-                raise ValidationError('Já existe uma categoria com este nome')
+                raise ValidationError(f'Já existe uma categoria com o nome "{self.name}"')
         return super().validate_unique(exclude)

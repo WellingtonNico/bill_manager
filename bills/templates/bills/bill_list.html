@@ -54,7 +54,10 @@
                                 <th class="text-center">Banco</th>
                             {% endif %}
                             <th class="text-center">Valor R$</th>
-                            <th class="text-end"><button data-toggle="tooltip" title="abrir filtros" type="button"  data-bs-toggle="modal" data-bs-target="#bill_filters" class="btn btn-sm btn-success mt-3"><i class="material-icons">filter_alt</i></button></th>
+                            <th class="text-end">
+                                <button data-toggle="tooltip" title="abrir filtros" type="button"  data-bs-toggle="modal" data-bs-target="#bill_filters" class="btn btn-sm btn-success mt-3"><i class="material-icons">filter_alt</i></button>
+                                <button data-toggle="tooltip" title="cadastrar nova conta" type="button" data-bs-toggle="modal" data-bs-target="#create_bill_modal" class="btn btn-sm btn-primary mt-3"><i class="material-icons">add</i></button>
+                            </th>
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
@@ -250,7 +253,6 @@
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
                         <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#create_bill_modal" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</button>
                     </div>
                 </form>
             </div>
