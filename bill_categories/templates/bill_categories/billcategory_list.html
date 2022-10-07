@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load coretags %}
+{% load coretags crispy_forms_tags %}
 {% block title %}
     Categorias - lista
 {% endblock %}
@@ -24,7 +24,7 @@
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
                     <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                    <a href="{% url 'billcategory_create' %}" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</a>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#bill_category_create_modal" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</button>
                 </div>
             </form>
             <div class="card shadow mt-3 p-3">
@@ -93,6 +93,26 @@
             </div>
         </div>
     </div>
+
+    <!-- início do modal de criar cateoria -->
+    <div class="modal fade" id="bill_category_create_modal" tabindex="-1" aria-labelledby="bill_category_create_modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Cadastro de categoria</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="payment_form" method="post" action="{% url 'billcategory_create' %}">
+                        {% crispy bill_category_create_form %}
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- fim do modal de criar categoria -->
+
     <script>
         var navLinkIndex = 1
     </script>

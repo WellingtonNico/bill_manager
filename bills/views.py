@@ -24,7 +24,7 @@ class BillListView(CustomListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['create_bill_form'] = BillModelForm(custom_kwargs={'current_user':self.request.user})
+        context['bill_create_form'] = BillModelForm(custom_kwargs={'current_user':self.request.user})
         return context
 
 

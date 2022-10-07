@@ -4,12 +4,12 @@ BILL_TYPES = (
 )
 
 BILL_STATUSES = (
-    ('UNDEFINED','INDEFINIDO'),
-    ('TO_EXPIRE','A VENCER'),
-    ('EXPIRED','VENCIDA'),
-    ('EXPIRES_TODAY','VENCE HOJE'),
-    ('WARNING','ATENÇÃO'),
-    ('PAID','PAGA'),
+    ('UNDEFINED','Indefinido'),
+    ('TO_EXPIRE','A vencer'),
+    ('EXPIRED','Vencida'),
+    ('EXPIRES_TODAY','Vence hoje'),
+    ('WARNING','Atenção'),
+    ('PAID','Paga'),
 )
 
 BILL_ORDERING_OPTIONS = (

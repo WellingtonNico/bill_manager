@@ -10,7 +10,7 @@
             color: white;
         }
         .bill_TO_EXPIRE{
-            background-color: rgb(69, 85, 234);
+            background-color: rgb(67, 161, 88);
             color: white;
         }
         .bill_EXPIRED{
@@ -18,7 +18,7 @@
             color: white;
         }
         .bill_EXPIRES_TODAY{
-            background-color: rgb(67, 161, 88);
+            background-color: rgb(69, 85, 234);
             color: white;
         }
         .bill_WARNING{
@@ -50,7 +50,7 @@
                                 <th class="text-center">Prazo</th>
                             {% else %}
                                 <th class="text-center">Paga em</th>
-                                <th class="text-center">Tipo pagamento</th>
+                                <th class="text-center">Forma de pagamento</th>
                                 <th class="text-center">Banco</th>
                             {% endif %}
                             <th class="text-center">Valor R$</th>
@@ -156,7 +156,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" ><i class="material-icons text-success">attach_money</i> Formulário de pagamento</h5>
+                    <h5 class="modal-title" >Formulário de pagamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
                 </div>
                 <div class="modal-body">
@@ -212,7 +212,7 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Tipo de pagamento:</label>
+                            <label >Forma de pagamento:</label>
                             <select class="form-control" name="payment_type">
                                 <option value="">todos</option>
                                 {% for key,value in BILL_PAYMENT_TYPES %}
@@ -291,7 +291,7 @@
                 <div class="modal-body">
                     <form id="payment_form" method="post" action="{% url 'bill_create' %}">
                         <div class="row">
-                            {% crispy create_bill_form %}
+                            {% crispy bill_create_form %}
                             {% csrf_token %}
                         </div>
                     </form>
