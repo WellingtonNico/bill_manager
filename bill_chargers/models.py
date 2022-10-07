@@ -27,5 +27,5 @@ class BillCharger(models.Model):
         querySet = BillCharger.objects.filter(user=self.user,name__iexact=self.name)
         if querySet.exists():
             if querySet.first().id != self.id:
-                raise ValidationError(f'Já existe uma categoria com o nome "{self.name}"')
+                raise ValidationError(f'Já existe um cobrador com o nome "{self.name}"')
         return super().validate_unique(exclude)
