@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from bill_categories.models import BillCategory
 from bill_chargers.models import BillCharger
 from bills.constants import *
+from bills.managers import BillManager
 from bills.validators import *
 from users.models import User
 
@@ -37,7 +38,7 @@ class Bill(models.Model):
     # note = models.CharField(max_length=60,blank=True,null=True,verbose_name='Comentário')
     value = models.FloatField(verbose_name='Valor')
 
-    # banco
+    objects = BillManager()
 
     gender = 'a'
 

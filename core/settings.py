@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'bill_categories',
     'crispy_forms',
     'crispy_bootstrap5',
+    'relatories',
     'django_cleanup.apps.CleanupConfig', # deve ficar sempre por último
 ]
 
