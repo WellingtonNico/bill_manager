@@ -23,6 +23,10 @@ legend{
     color: #31977f !important;
 }
 
+.btn-outline-success:hover{
+    background-color: #31977f !important;
+}
+
 td{
     vertical-align : middle !important;
 }

@@ -1,7 +1,7 @@
 from django import template
 import locale
 
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+locale.setlocale(locale.LC_ALL, '')
 
 register = template.Library()
 
@@ -22,6 +22,6 @@ def build_params(request):
 
 @register.filter(name='to_currency')
 def to_currency(value):
-    return locale.currency(value,grouping=True)
+    return locale.currency(value,grouping=True,symbol=False)
 
 

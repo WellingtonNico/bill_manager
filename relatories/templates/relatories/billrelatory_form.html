@@ -4,11 +4,55 @@
     Relatório de Contas - formulário
 {% endblock %}
 {% block body %}
+    <style>
+        label{
+            display: none !important;
+        }
+    </style>
     <div class="row justify-content-center">
-        <div class="col-12 col-sm-8 col-md-4">
+        <div class="col-12 col-sm-6 col-md-4">
             <form method="POST" class="card shadow p-3">
+                {{ form|as_crispy_errors }}
+                {% if form.instance.id %}
+                    <div class="col text-start">
+                        <p>
+                            <span class="text-success fw-bold">Última atualização: </span><span>{{form.instance.updated_date|date:'d/m/Y'}}</span>
+                        </p>
+                        <p>
+                            <span class="text-success fw-bold">Status: </span><span>{{form.instance.get_status_display}}</span>
+                        </p>
+                    </div>
+                {% endif %}
+                <div class="row align-items-center">
+                    <div class="col-2 text-center px-0 ">
+                        <p>
+                            De:
+                        </p>
+                        <p class="pt-2 m-0">
+                            Até:
+                        </p>
+                    </div>
+                    <div class="col-5">
+                        <p>
+                            {{ form.start_month|as_crispy_field }}
+                        </p>
+                        <p>
+                            {{ form.end_month|as_crispy_field }}
+                        </p>
+                    </div>
+                    <div class="col-5">
+                        <p>
+                            {{ form.start_year|as_crispy_field }}
+                        </p>
+                        <p>
+                            {{ form.end_year|as_crispy_field }}
+                        </p>
+                    </div>
+                </div>
                 {% csrf_token %}
-                {% crispy form %}
+                <div class="col-12 text-center">
+                    <button class="btn btn-success" type="submit"><i class="material-icons">save</i> gerar</button>
+                </div>
             </form>
         </div>
     </div>

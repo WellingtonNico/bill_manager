@@ -4,7 +4,7 @@
     Relatório de Contas
 {% endblock %}
 {% block body %}
-    <div class="row justify-content-center">
+    <div class="row justify-content-center pt-4">
         {% if not user.has_billrelatory %}
             <div class="text-center">
                 <div class="text-center text-success fw-bold">
@@ -68,29 +68,29 @@
                                         </div>
                                         <div class="col-5 text-end">
                                             <p>
-                                                <span>{{value.EXPIRED.value_sum|to_currency}}</span>
+                                                <span>R$ {{value.EXPIRED.value_sum|to_currency}}</span>
                                             </p>
                                             <p>
-                                                <span>{{value.EXPIRES_TODAY.value_sum|to_currency}}</span>
+                                                <span>R$ {{value.EXPIRES_TODAY.value_sum|to_currency}}</span>
                                             </p>
                                             <p>
-                                                <span>{{value.WARNING.value_sum|to_currency}}</span>
+                                                <span>R$ {{value.WARNING.value_sum|to_currency}}</span>
                                             </p>
                                             <p>
-                                                <span>{{value.TO_EXPIRE.value_sum|to_currency}}</span>
+                                                <span>R$ {{value.TO_EXPIRE.value_sum|to_currency}}</span>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="list-group-item text-center text-main fw-bold">
                                     <div class="row">
-                                        <div class="col-5">
+                                        <div class="col-5 text-start">
                                             Total:
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-2 text-start">
                                             {{value.TOTAL.count}}
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-5 text-end">
                                             R$ {{value.TOTAL.value_sum|to_currency}}
                                         </div>
                                     </div>
@@ -104,21 +104,61 @@
     </div>
 
     <!-- início do modal de criar relatório -->
-    <div class="modal text-center fade" id="billrelatory_form" tabindex="-1" aria-labelledby="billrelatory_form" aria-hidden="true">
-        <div class="row justify-content-center">
-            <div class="col text-center col-12 col-sm-8 col-md-4">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+    <div class="modal text-center fade" id="billrelatory_form"  aria-labelledby="billrelatory_form" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <style>
+                        label{
+                            display: none !important;
+                        }
+                    </style>
+                    <form method="post" action="{% if not user.has_billrelatory %}{% url 'billrelatory_create' %}{% else %}{% url 'billrelatory_update' user.billrelatory.id %}{%endif%}">
+                        {{ form|as_crispy_errors }}
+                        {% if form.instance.id %}
+                            <div class="col text-start">
+                                <p>
+                                    <span class="text-success fw-bold">Última atualização: </span><span>{{form.instance.updated_date|date:'d/m/Y'}}</span>
+                                </p>
+                                <p>
+                                    <span class="text-success fw-bold">Status: </span><span>{{form.instance.get_status_display}}</span>
+                                </p>
+                            </div>
+                        {% endif %}
+                        <div class="row align-items-center">
+                            <div class="col-2 text-center px-0 ">
+                                <p>
+                                    De:
+                                </p>
+                                <p class="pt-2 m-0">
+                                    Até:
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    {{ form.start_month|as_crispy_field }}
+                                </p>
+                                <p>
+                                    {{ form.end_month|as_crispy_field }}
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    {{ form.start_year|as_crispy_field }}
+                                </p>
+                                <p>
+                                    {{ form.end_year|as_crispy_field }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <form method="post" action="{% if not user.has_billrelatory %}{% url 'billrelatory_create' %}{% else %}{% url 'billrelatory_update' user.billrelatory.id %}{%endif%}">
-                                {% crispy form %}
-                                {% csrf_token %}
-                            </form>
+                        {% csrf_token %}
+                        <div class="col-12 text-center">
+                            <button class="btn btn-success" type="submit"><i class="material-icons">save</i> gerar</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
