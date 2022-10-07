@@ -21,7 +21,6 @@ class BillListView(CustomListView):
         context['BILL_ORDERING_OPTIONS']=BILL_ORDERING_OPTIONS
         context['BILL_PAYMENT_TYPES']=BILL_PAYMENT_TYPES
         context['BILL_PAYMENT_BANKS']=BILL_PAYMENT_BANKS
-        context['PAGE_SIZES']=[5,10,20,30,40,50]
         context['PAYMENT_FORM']=BillPaymentForm()
         return context
 

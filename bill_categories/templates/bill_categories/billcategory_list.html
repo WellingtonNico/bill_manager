@@ -8,17 +8,9 @@
         <div class="col-12 col-md-8 col-lg-6">
             <form id="filter_form" action="?" class="card shadow p-3" method="get">
                 <div class="row">
-                    <div class="col-12 col-md-8 mt-2">
+                    <div class="col-12 mt-2">
                         <label >Nome:</label>
                         <input type="text" name="name__icontains" class="form-control" value="{{request.GET.name__icontains}}">
-                    </div>
-                    <div class="col-12 col-md-4 mt-2">
-                        <label >Tamanho da página:</label>
-                        <select class="form-control" name="page_size">
-                            {% for n in PAGE_SIZES %}
-                                <option {% if n == request.GET.page_size|to_int %}selected{%endif%} value="{{n}}">{{n}}</option>
-                            {% endfor %}
-                        </select>
                     </div>
                 </div>
                 <div class="col-12 text-center">

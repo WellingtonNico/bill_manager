@@ -66,7 +66,7 @@ class CustomListView(CustomContextMixin,ListView):
     page_number_param = 'page'
     page_ordering_param = 'ordering'
     default_ordering = None
-    default_page_size = 40
+    default_page_size = 13
     exclude_params = []
     list_params = []
     get_queryset_function_to_eval = ''
