@@ -7,12 +7,98 @@
     <div class="row justify-content-center">
         {% if not user.has_billrelatory %}
             <div class="text-center">
-                <span>Você ainda não possui um relatório</span>
+                <div class="text-center text-success fw-bold">
+                    Você ainda não possui um relatório
+                </div>
                 <div class="row mt-3">
                     <div class="col">
                         <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn btn-primary"><i class="material-icons">add</i> criar relatório</button>
                     </div>
                 </div>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="text-center text-main fw-bold">
+                        Status: {{user.billrelatory.get_status_display}}, última atualização em: {{user.billrelatory.updated_date}} {% if not user.billrelatory.is_empty %}, período: {{user.billrelatory.get_period_from_to}}{%else%}, formulário sem dados{%endif%}
+                        {% if user.billrelatory.status == 'COMPLETED' or  user.billrelatory.status == 'ERROR' %}
+                            <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn btn-sm btn-outline-success mx-3">novo relatório</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row justify-content-center mt-4">
+                {% for key,value in user.billrelatory.data.items %}
+                    <div class="col-6 col-sm-4 col-md-3 p-1 p-sm-2">
+                        <div class="card shadow">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-center bg-main text-light fw-bold">{{value.date}}</li>
+                                <li class="list-group-item text-main">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p>
+                                                <span>Vencidas: </span>
+                                            </p>
+                                            <p>
+                                                <span>Vence hoje: </span>
+                                            </p>
+                                            <p>
+                                                <span>Atenção: </span>
+                                            </p>
+                                            <p>
+                                                <span>A vencer: </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p>
+                                                <span>{{value.EXPIRED.count}}</span>
+                                            </p>
+                                            <p>
+                                                <span>{{value.EXPIRES_TODAY.count}}</span>
+                                            </p>
+                                            <p>
+                                                <span>{{value.WARNING.count}}</span>
+                                            </p>
+                                            <p>
+                                                <span>{{value.TO_EXPIRE.count}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-5 text-end">
+                                            <p>
+                                                <span>R$ {{value.EXPIRED.value_sum}}</span>
+                                            </p>
+                                            <p>
+                                                <span>R$ {{value.EXPIRES_TODAY.value_sum}}</span>
+                                            </p>
+                                            <p>
+                                                <span>R$ {{value.WARNING.value_sum}}</span>
+                                            </p>
+                                            <p>
+                                                <span>R$ {{value.TO_EXPIRE.value_sum}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item text-center text-main fw-bold">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            Total:
+                                        </div>
+                                        <div class="col-2">
+                                            {{value.TOTAL.count}}
+                                        </div>
+                                        <div class="col-5">
+                                            R$ {{value.TOTAL.value_sum}}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         {% endif %}
     </div>
@@ -24,7 +110,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" >Cadastro de Relatório</h5>
+                            
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
                         </div>
                         <div class="modal-body">

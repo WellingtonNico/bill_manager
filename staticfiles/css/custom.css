@@ -16,8 +16,11 @@ legend{
     font-weight: bold; 
 }
 
-.btn-success{
+.btn-success,.bg-success,.bg-main{
     background-color: #31977f !important;
+}
+.text-success,.text-main{
+    color: #31977f !important;
 }
 
 td{

@@ -15,6 +15,7 @@ class BillRelatoryView(TemplateView):
             context['form'] = BillRelatoryForm(instance=rel,custom_kwargs={'current_user':self.request.user})
         else:
             context['form'] = BillRelatoryForm(custom_kwargs={'current_user':self.request.user})
+        # self.request.user.billrelatory.process()
         return context
 
 
@@ -27,6 +28,7 @@ class BillRelatoryCreateView(CustomCreateView):
 class BillRelatoryUpdateView(CustomUpdateView):
     model = BillRelatory
     form_class = BillRelatoryForm
+    success_url = reverse_lazy('billrelatory_view')
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)

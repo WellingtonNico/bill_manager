@@ -29,12 +29,16 @@ class BillRelatory(models.Model):
 
     def process(self):
         self.data = {}
+        index = 0
         try:
             for month,year in get_month_periods(self.start_month,self.start_year,self.end_month,self.end_year):
                 queryset = self.user.get_bills().filter(created_date__year=year,created_date__month=month)
-                self.data[f"{MONTHS[month]} - {year}"] = queryset.build_relatory()
+                data = queryset.build_relatory()
+                data['date'] = f"{MONTHS[month]} - {year}"
+                self.data[index] = data
+                index += 1 
             self.status = 'COMPLETED'
-        except:
+        except Exception as e:
             self.status = 'ERROR'
         self.save()
 
@@ -42,6 +46,11 @@ class BillRelatory(models.Model):
         app.signature('process_bill_relatory').apply_async(args=(self.id,))
         self.status = 'QUEUED'
         self.save()
+
+    def get_period_from_to(self):
+        if self.data:
+            return f"{list(self.data.values())[0]['date']} até {list(self.data.values())[-1]['date']}"
+        return 'informação não disponível'
 
     def is_empty(self) -> bool:
         return self.data == {}
