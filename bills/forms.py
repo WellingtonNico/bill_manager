@@ -155,7 +155,7 @@ class BillPaymentForm(ModelForm):
         kwargs.pop('custom_kwargs',None)
         super().__init__(*args, **kwargs)
         self.fields['payment_date'].required = True
-        self.fields['payment_date'].default = datetime.now().date()
+        self.fields['payment_date'].initial = datetime.now().date()
         self.fields['payment_type'].required = True
         self.fields['bank'].required = True
 
