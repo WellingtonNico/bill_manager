@@ -1,7 +1,5 @@
 from django import template
-import locale
-
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+import babel.numbers
 
 register = template.Library()
 
@@ -22,6 +20,6 @@ def build_params(request):
 
 @register.filter(name='to_currency')
 def to_currency(value):
-    return locale.currency(value,grouping=True,symbol=False)
+    return babel.numbers.format_currency(value, "", locale='pt_BR')
 
 
