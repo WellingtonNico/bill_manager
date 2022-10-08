@@ -21,18 +21,18 @@
                 <div class="col-10">
                     <div class="text-start text-main fw-bold">
                         <p>
-                            Status: <span class="text-dark">{{user.billrelatory.get_status_display}}</span>
+                            Status: <span class="text-dark fw-normal">{{user.billrelatory.get_status_display}}</span>
                         </p>
                         <p>
-                            Última Atualização em: <span class="text-dark">{{user.billrelatory.updated_date}}</span>
+                            Última Atualização em: <span class="text-dark fw-normal">{{user.billrelatory.updated_date}}</span>
                         </p>
                         {% if not user.billrelatory.is_empty %}
                             <p>
-                                Período: <span class="text-dark">{{user.billrelatory.get_period_from_to}}</span>
+                                Período: <span class="text-dark fw-normal">{{user.billrelatory.get_period_from_to}}</span>
                             </p>
                         {%endif%}
                         {% if user.billrelatory.status == 'COMPLETED' or  user.billrelatory.status == 'ERROR' %}
-                            <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn btn-sm btn-primary mx-3">Novo Relatório</button>
+                            <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn mx-0 btn-sm btn-primary"><i class="material-icons">add</i> Novo Relatório</button>
                         {% endif %}
                     </div>
                 </div>
