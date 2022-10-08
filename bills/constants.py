@@ -21,6 +21,7 @@ BILL_ORDERING_OPTIONS = (
 
 BILL_PAYMENT_BANKS = (
     ('BANCO_DO_BRASIL','Banco do Brasil'),
+    ('BANCO_CORA','Banco Cora'),
     ('BRADESCO','Bradesco'),
     ('CAIXA','Caixa'),
     ('ITAU','Itaú'),
@@ -31,7 +32,6 @@ BILL_PAYMENT_BANKS = (
     ('PAY_PAL','Pay Pal'),
     ('PIC_PAY','Pic Pay'),
     ('SANTANDER','Santander'),
-    ('BANCO_CORA','Banco Cora'),
     ('OTHER','Outro'),
 )
 
