@@ -21,16 +21,18 @@
                 <div class="col-10">
                     <div class="text-start text-main fw-bold">
                         <p>
-                            Status: {{user.billrelatory.get_status_display}}
+                            Status: <span class="text-dark">{{user.billrelatory.get_status_display}}</span>
                         </p>
                         <p>
-                            Última Atualização em: {{user.billrelatory.updated_date}} 
+                            Última Atualização em: <span class="text-dark">{{user.billrelatory.updated_date}}</span>
                         </p>
-                        <p>
-                            {% if not user.billrelatory.is_empty %}Período: {{user.billrelatory.get_period_from_to}}{%endif%}
-                        </p>
+                        {% if not user.billrelatory.is_empty %}
+                            <p>
+                                Período: <span class="text-dark">{{user.billrelatory.get_period_from_to}}</span>
+                            </p>
+                        {%endif%}
                         {% if user.billrelatory.status == 'COMPLETED' or  user.billrelatory.status == 'ERROR' %}
-                            <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn btn-sm btn-outline-success mx-3">Novo Relatório</button>
+                            <button data-bs-toggle="modal" data-bs-target="#billrelatory_form" class="btn btn-sm btn-primary mx-3">Novo Relatório</button>
                         {% endif %}
                     </div>
                 </div>
@@ -44,20 +46,20 @@
                         <div class="card shadow">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item text-center bg-main text-light fw-bold">{{value.date}}</li>
-                                <li class="list-group-item text-main">
+                                <li class="list-group-item text-secondary">
                                     <div class="row">
                                         <div class="col-5">
                                             <p>
                                                 <span>Vencidas: </span>
                                             </p>
                                             <p>
-                                                <span>Vence hoje: </span>
+                                                <span>Vence Hoje: </span>
                                             </p>
                                             <p>
                                                 <span>Atenção: </span>
                                             </p>
                                             <p>
-                                                <span>A vencer: </span>
+                                                <span>A Vencer: </span>
                                             </p>
                                         </div>
                                         <div class="col-2">
