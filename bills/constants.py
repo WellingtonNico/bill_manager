@@ -1,13 +1,13 @@
 BILL_TYPES = (
     ('INSTALLED','Parcelada'),
-    ('UNIQUE_INSTALLMENT','Parcela única'),
+    ('UNIQUE_INSTALLMENT','Parcela Única'),
 )
 
 BILL_STATUSES = (
     ('UNDEFINED','Indefinido'),
-    ('TO_EXPIRE','A vencer'),
+    ('TO_EXPIRE','A Vencer'),
     ('EXPIRED','Vencida'),
-    ('EXPIRES_TODAY','Vence hoje'),
+    ('EXPIRES_TODAY','Vence Hoje'),
     ('WARNING','Atenção'),
     ('PAID','Paga'),
 )

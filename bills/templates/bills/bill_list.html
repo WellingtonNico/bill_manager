@@ -143,7 +143,7 @@
                 <form id="filter_form"  action="?" class="p-3 " method="get">
                     <div class="row justify-content-center">
                         <div class="col-4 mt-2">
-                            <label >Categoria:</label>
+                            <label >Categoria</label>
                             <select name="bill_category" id="bill_category"  class="form-control">
                                 <option value="">todas</option>
                                 {% for category in user.get_billcategories %}
@@ -152,7 +152,7 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Tipo:</label>
+                            <label >Tipo</label>
                             <select name="bill_type" class="form-control">
                                 <option value="">todos</option>
                                 {% for key,value in BILL_TYPES %}
@@ -161,7 +161,7 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Status:</label>
+                            <label >Status</label>
                             <select name="status" class="form-control">
                                 <option value="">todos</option>
                                 {% for key,value in BILL_STATUSES %}
@@ -170,7 +170,7 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Cobrador:</label>
+                            <label >Cobrador</label>
                             <select name="bill_charger" id="bill_charger"  class="form-control">
                                 <option value="">todos</option>
                                 {% for charger in user.get_billchargers %}
@@ -179,7 +179,7 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Forma de pagamento:</label>
+                            <label >Forma de pagamento</label>
                             <select class="form-control" name="payment_type">
                                 <option value="">todos</option>
                                 {% for key,value in BILL_PAYMENT_TYPES %}
@@ -188,15 +188,15 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label>Criada em:</label>
+                            <label>Criada em</label>
                             <input name="created_date" class="form-control" type="date" value="{{request.GET.created_date}}">
                         </div>
                         <div class="col-4 mt-2">
-                            <label>Vence em:</label>
+                            <label>Vence em</label>
                             <input name="expiration_date" class="form-control" type="date" value="{{request.GET.expiration_date}}">
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Banco:</label>
+                            <label >Banco</label>
                             <select class="form-control" name="bank">
                                 <option value="">todos</option>
                                 {% for key,value in BILL_PAYMENT_BANKS %}
@@ -205,7 +205,7 @@
                             </select>
                         </div>
                         <div class="col-4 mt-2">
-                            <label >Ordenar por:</label>
+                            <label >Ordenar por</label>
                             <select class="form-control" name="ordering">
                                 <option value="">padrão</option>
                                 {% for key,value in BILL_ORDERING_OPTIONS %}
@@ -235,10 +235,10 @@
                     Tem certeza que deseja estornar o pagamento?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="material-icons">undo</i> cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="material-icons">undo</i> Cancelar</button>
                     <form id="undo_payment_form" method="post" action="">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success"><i class="material-icons">done</i> estornar</button>
+                        <button type="submit" class="btn btn-success"><i class="material-icons">done</i> Estornar</button>
                     </form>
                 </div>
             </div>

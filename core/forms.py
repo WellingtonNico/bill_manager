@@ -18,7 +18,7 @@ class SupportForm(forms.Form):
         HTML(
             ''' 
             <div class="col text-center">
-                <button type="submit" class="btn btn-success"><i class="material-icons">send</i> enviar</button>
+                <button type="submit" class="btn btn-success"><i class="material-icons">send</i> Enviar</button>
             </div>
             '''
         )
@@ -133,7 +133,7 @@ class AccessSolicitationForm(forms.Form):
         HTML(
             ''' 
             <div class="col text-center">
-                <button type="submit" class="btn btn-success"><i class="material-icons">send</i> enviar</button>
+                <button type="submit" class="btn btn-success"><i class="material-icons">send</i> Enviar</button>
             </div>
             '''
         )
@@ -211,7 +211,7 @@ class CustomPasswordResetForm(PasswordResetForm):
             '''
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> enviar email</button>
+                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> Enviar Email</button>
                 </div>
             </div>
             '''
@@ -230,7 +230,7 @@ class CustomSetPasswordForm(SetPasswordForm):
             '''
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> alterar</button>
+                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> Alterar</button>
                 </div>
             </div>
             '''
@@ -248,7 +248,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             '''
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> alterar</button>
+                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> Alterar</button>
                 </div>
             </div>
             '''

@@ -98,7 +98,7 @@ class BillPaymentForm(ModelForm):
             {% endif %}
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> pagar</button>
+                    <button type="submit" class="btn btn-success"><i class="material-icons">done</i> Pagar</button>
                 </div>
             </div>
             '''
