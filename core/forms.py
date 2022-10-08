@@ -139,11 +139,11 @@ class AccessSolicitationForm(forms.Form):
         )
     )
 
-    name = forms.CharField(max_length=255,label='Nome completo',required=True)
+    name = forms.CharField(max_length=255,label='Nome Completo',required=True)
     email = forms.EmailField(required=True,label='Email',max_length=255)
     phone = forms.CharField(max_length=255,label='Telefone',required=False)
     message = forms.CharField(
-        label='Se desejar pode estar enviando alguma mensagem',
+        label='Mensagem "opcional"',
         min_length=0,max_length=400,required=False,
         widget=forms.Textarea(
             attrs={'rows':3}
