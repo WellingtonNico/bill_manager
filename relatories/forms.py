@@ -17,7 +17,7 @@ class BillRelatoryForm(ModelForm):
             '''
             <div class="row mt-3 justify-content-center">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-success"><i class="material-icons">save</i> salvar</button>
+                    <button type="submit" class="btn btn-success"><i class="material-icons">save</i> Salvar</button>
                 </div>
             </div>
             '''

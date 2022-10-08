@@ -31,17 +31,17 @@ class BillModelForm(ModelForm):
                 '''
                 {% if form.instance.id and not form.payment_proof_file.errors %}
                     {% if form.instance.payment_proof_file.file is not none %}
-                        <a download href="{% url 'bill_payment_proof_download' form.instance.id %}">Baixar comprovante</a>
+                        <a download href="{% url 'bill_payment_proof_download' form.instance.id %}">Baixar Comprovante</a>
                     {% endif %}
                 {% endif %}
                 <div class="row mt-3 justify-content-center">
                     <div class="col text-center">
-                        <button type="submit" class="btn btn-success"><i class="material-icons">save</i> salvar</button>
+                        <button type="submit" class="btn btn-success"><i class="material-icons">save</i> Salvar</button>
                     </div>
                     {% if form.instance.id %}
                         <div class="col text-center">
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
-                                <i class="material-icons">delete</i> deletar
+                                <i class="material-icons">delete</i> Deletar
                             </button>
                         </div>
                     {% endif %}
@@ -67,9 +67,6 @@ class BillModelForm(ModelForm):
     def clean_expiration_date(self):
         expiration_date = self.cleaned_data['expiration_date']
         bill_type = self.cleaned_data['bill_type']
-        if expiration_date:
-            if expiration_date < datetime.now().date():
-                raise ValidationError('A data de vencimento não pode ser inferior a data atual')
         if bill_type == 'INSTALLED' and not expiration_date:
             raise ValidationError('A data de vencimento é obrigatória quando o tipo da conta for PARCELADA')
         return expiration_date

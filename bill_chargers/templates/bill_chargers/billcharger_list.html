@@ -14,25 +14,23 @@
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> filtrar</button>
-                    <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> limpar</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#bill_charger_create_modal" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> adicionar</button>
+                    <button type="submit" class="btn btn-success mt-3"><i class="material-icons">filter_alt</i> Filtrar</button>
+                    <button type="button" onclick="cleanFilters()" class="btn btn-outline-secondary mt-3"><i class="material-icons">backspace</i> Limpar</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#bill_charger_create_modal" class="btn btn-outline-primary mt-3"><i class="material-icons">add</i> Adicionar</button>
                 </div>
             </form>
             <div class="card shadow mt-3 p-3">
                 <div style="overflow-x: auto;">
                     <table class="table table-striped">
                         <thead>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th></th>
                         </thead>
                         <tbody>
                             {% for obj in object_list %}
                                 <tr>
-                                    <td>{{obj.id}}</td>
                                     <td>{{obj.name}}</td>
-                                    <td class="text-end m-0"><a href="{% url 'billcharger_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> edtar</span></a></td>
+                                    <td class="text-end m-0"><a href="{% url 'billcharger_update' obj.id %}" class="m-0 btn btn-sm btn-warning"><i class="material-icons">edit</i><span class="d-none d-lg-inline-block"> Editar</span></a></td>
                                 </tr>
                             {% empty %}
                                 <tr>
