@@ -49,7 +49,7 @@ class BillRelatory(models.Model):
 
     def get_period_from_to(self):
         if self.data:
-            return f"{list(self.data.values())[0]['date']} até {list(self.data.values())[-1]['date']}"
+            return f"{list(self.data.values())[0]['date']} até {list(self.data.values())[-1]['date']}".replace(' - ','/')
         return 'informação não disponível'
 
     def is_empty(self) -> bool:
