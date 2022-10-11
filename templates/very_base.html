@@ -14,7 +14,10 @@
         {% if messages %}
             <ul class="context-messages w-100">
                 {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}-message"{% endif %}>{{ message }}</li>
+                    <li class="alert alert-success shadow" role="alert">
+                        {{ message }}
+                    </li>
+                    <!-- <li{% if message.tags %} class="{{ message.tags }}-message"{% endif %}>{{ message }}</li> -->
                 {% endfor %}
             </ul>
         {% endif %}
