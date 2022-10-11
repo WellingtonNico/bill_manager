@@ -76,6 +76,17 @@ class BillModelForm(ModelForm):
         return super().is_valid()
 
 
+class BillUndoPaymentForm(ModelForm):
+    class Meta:
+        model = Bill
+        fields = ('payment_date','payment_type','bank')
+
+    def save(self, commit: bool = ...):
+        self.instance.payment_proof_file = None
+        self.instance.status = 'UNDEFINED'
+        return super().save(commit)
+
+
 class BillPaymentForm(ModelForm):
     class Meta:
         model = Bill
@@ -86,7 +97,7 @@ class BillPaymentForm(ModelForm):
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
-            '',
+            'Pagamento',
             'payment_date','payment_type','bank','payment_proof_file'
         ),
         HTML(

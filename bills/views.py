@@ -1,11 +1,11 @@
 from core.view_classes import CustomCreateView, CustomUpdateView, CustomListView
 from bills.constants import *
 from bills.models import Bill
-from bills.forms import BillModelForm, BillPaymentForm
+from bills.forms import BillModelForm, BillPaymentForm, BillUndoPaymentForm
 from django.http import FileResponse
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
-from django.views.generic import DeleteView,DetailView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import DeleteView,DetailView,UpdateView
 
 
 class BillListView(CustomListView):
@@ -56,23 +56,13 @@ class BillPaymentProofDownloadView(DetailView):
         return fileResponse
 
 
-class BillUndoPaymentUpdateView(CustomUpdateView):
+class BillUndoPaymentUpdateView(SuccessMessageMixin,UpdateView):
+    success_message = 'Estorno realizado com sucesso!'
+    form_class = BillUndoPaymentForm
+    success_url = reverse_lazy('bill_list')
 
     def get_queryset(self):
         return self.request.user.get_bills()
-
-    def post(self,request,*args,**kwargs):
-        obj:Bill = self.get_object()
-        obj.payment_date = None
-        obj.payment_type = None
-        obj.bank = None
-        obj.payment_proof_file = None
-        obj.status = 'UNDEFINED'
-        obj.save()
-        return redirect(reverse_lazy('bill_list'))
-
-    def get_sucess_message(self,cleaned_data):
-        return 'Estorno realizado com sucesso!'
 
 
 class BillPaymentUpdateView(CustomUpdateView):
