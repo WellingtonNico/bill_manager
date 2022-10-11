@@ -122,10 +122,11 @@
     <div class="modal fade" id="bill_payment_modal" tabindex="-1" aria-labelledby="bill_payment_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="material-icons text-success mb-1">attach_money</i> Efetuar Pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
+                </div>
                 <div class="modal-body">
-                    <div class="row justify-content-end px-3">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
-                    </div>
                     <form id="payment_form" method="post" action="" enctype="multipart/form-data">
                         {% crispy PAYMENT_FORM %}
                         {% csrf_token %}
@@ -228,7 +229,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="material-icons text-success">undo</i> Estornar</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="material-icons text-success mb-1">undo</i> Estornar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
                 </div>
                 <div class="modal-body">
@@ -251,7 +252,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center" >Cadastro de Conta</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="material-icons text-primary mb-1">add</i> Cadastrar Nova Conta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="fechar"></button>
                 </div>
                 <div class="modal-body">

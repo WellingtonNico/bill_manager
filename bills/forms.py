@@ -97,7 +97,7 @@ class BillPaymentForm(ModelForm):
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
-            'Pagamento',
+            '',
             'payment_date','payment_type','bank','payment_proof_file'
         ),
         HTML(

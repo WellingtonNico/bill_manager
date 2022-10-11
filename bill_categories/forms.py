@@ -8,7 +8,7 @@ class BillCategoryModelForm(ModelForm):
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
-            'Cadastro de Categoria',
+            '',
             'name',
         ),
         HTML(
