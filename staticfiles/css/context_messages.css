@@ -9,12 +9,13 @@ ul.context-messages {
     padding: 0 !important;
     z-index: 1000;
     justify-content: center;
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 ul.context-messages>li {
     text-align: center;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0;
     animation: taadaa 4s;
 }
