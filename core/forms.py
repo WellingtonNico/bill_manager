@@ -241,7 +241,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     helper = FormHelper()
     helper.layout =Layout(
         Fieldset(
-            'Alteração de senha de senha',
+            'Alteração de Senha',
             'old_password','new_password1','new_password2'
         ),
         HTML(
