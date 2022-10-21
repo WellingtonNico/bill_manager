@@ -11,7 +11,7 @@ class SupportForm(forms.Form):
     helper = FormHelper()
     helper.layout = Layout(
         Fieldset(
-            'Formulário de suporte',
+            'Formulário de Suporte',
             'support_reason','support_reason_explanation','support_text',
             'support_attachments','answer_to_email'
         ),
@@ -24,7 +24,7 @@ class SupportForm(forms.Form):
         )
     )
     support_reason = forms.ChoiceField(
-        label='Motivo do suporte',
+        label='Motivo do Suporte',
         choices=(
             ("Dúvida","Dúvida"),
             ("Pedir melhoria","Pedir melhoria"),
@@ -40,12 +40,12 @@ class SupportForm(forms.Form):
         # )
     )
     support_reason_explanation = forms.CharField(
-        label='Breve explicação do motivo',max_length=45,min_length=5,required=False,
+        label='Breve Explicação do Motivo',max_length=45,min_length=5,required=False,
         help_text='Caso sua opção acima for "Outro motivo", será necessário que deixe uma breve explicação',
         # widget=forms.TextInput(attrs={'class':'form-control w-100'})
     )
     support_text = forms.CharField(
-        label='Escreva seu requerimento aqui',
+        label='Requerimento',
         min_length=20,max_length=400,
         widget=forms.Textarea(
             attrs={'rows':3}
@@ -59,7 +59,7 @@ class SupportForm(forms.Form):
         )
     )
     answer_to_email = forms.EmailField(
-        label='Responder para o e-mail',help_text='Insira um e-mail específico para a resposta, se acaso for necessário',
+        label='Responder E-mail',help_text='Insira um e-mail específico para a resposta, se acaso for necessário',
         required=False
     )
 
