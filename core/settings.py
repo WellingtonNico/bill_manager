@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
-CSRF_TRUSTED_ORIGINS = list(map(lambda host:f'http://{host}')) + list(map(lambda host:f'https://{host}'))
+CSRF_TRUSTED_ORIGINS = list(map(lambda host:f'http://{host}',ALLOWED_HOSTS)) + list(map(lambda host:f'https://{host}',ALLOWED_HOSTS))
 
 # Application definition
 
