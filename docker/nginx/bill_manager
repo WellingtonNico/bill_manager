@@ -12,7 +12,7 @@ map $sent_http_content_type $expires {
 }
 
 upstream gunicorn_bm{
-    server localhost:8000;
+    server localhost:9000;
     keepalive 32;
 }
 
@@ -31,6 +31,7 @@ server {
     ############ cache ##############
     #################################
     open_file_cache max=1000 inactive=1d;
+    server_name www.wellingtonnicoletti.com.br wellingtonnicoletti.com.br;
     open_file_cache_valid 1d;
     open_file_cache_min_uses 2;
     open_file_cache_errors off;
@@ -72,7 +73,7 @@ server {
 
     location /static/ {
         # lembrar de alterar o diretório para o correto dos estáticos
-        root <raiz do projeto>;
+        root /home/ubuntu/bill_manager;
         expires 1d;
         gzip_static on;
         proxy_buffering off;
